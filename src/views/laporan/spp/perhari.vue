@@ -1,0 +1,84 @@
+<script setup>
+	import { onMounted, reactive, watch } from 'vue';
+	import Card from '../../../components/Card.vue';
+	import Table from '../../../components/Table.vue';
+	import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
+
+	const state = reactive({
+		filter: {
+			_tanggal: '',
+		},
+		total: 0,
+		data: [],
+		excel_url: '',
+		print_url: '',
+	});
+
+	function get() {
+		http
+			.get('/laporan/spp/perhari', state.filter)
+			.then((res) => {
+				state.excel_url = res.headers.get('X-Excel-Url');
+				state.print_url = res.headers.get('X-Print-Url');
+				return res.json();
+			})
+			.then((res) => {
+				state.total = 0;
+				state.data = res;
+
+				res.forEach((item) => {
+					state.total += item.total_bayar + item.total_tabungan;
+				});
+			})
+			.catch((err) => notify(err, 'bg-red-400'));
+	}
+
+	watch(state.filter, () => {
+		get();
+	});
+
+	onMounted(() => {
+		state.filter._tanggal = nowDate();
+	});
+</script>
+
+<template>
+	<Card title="Laporan Perhari">
+		<div class="form-field">
+			<input type="date" v-model="state.filter._tanggal" />
+		</div>
+		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ formatDate(state.filter._tanggal) }}</div>
+		<div class="text-right mb-4 text-sm">
+			<a target="_blank" :href="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
+			<a target="_blank" :href="state.print_url" class="text-red-500">PRINT</a>
+		</div>
+		<Table
+			:keys="{
+				No: 'no',
+				Nisn: 'siswa_nisn',
+				Nama_Siswa: 'siswa_nama',
+				Kelas: 'siswa_kelas',
+				Bulan: 'total_bulan',
+				Total: 'total_bayar',
+			}"
+			:items="state.data"
+		>
+			<template #no="{ index }">
+				{{ index + 1 }}
+			</template>
+
+			<template #siswa_nama="{ item }">
+				{{ item.siswa.nama }}
+			</template>
+
+			<template #siswa_kelas="{ item }">
+				{{ item.siswa.kelas }} {{ item.siswa.jurusan_kode }} {{ item.siswa.rombel }}
+			</template>
+
+			<template #total_bayar="{ item }">
+				{{ formatMoney(item.total_bayar + item.total_tabungan) }}
+			</template>
+		</Table>
+		<div class="p-4 bg-gray-50 rounded mb-4">Total: {{ formatMoney(state.total) }}</div>
+	</Card>
+</template>
