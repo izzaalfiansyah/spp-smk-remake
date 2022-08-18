@@ -18,8 +18,8 @@ class Controller extends BaseController
 
         if (file_put_contents(public_path($path . $filename), base64_decode($file))) {
             return $filename;
-        } 
-        
+        }
+
         return false;
     }
 
@@ -60,7 +60,7 @@ class Controller extends BaseController
         }
 
         $response = "
-        <table border=1 cellpadding=3 cellspacing=0 width=100%>
+        <table border=1 cellpadding=1 cellspacing=0 width=100% style='font-size: 12px !important;'>
             <tr>
                 $header
             </tr>

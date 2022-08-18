@@ -79,7 +79,11 @@
 		}
 	}
 
-	function store() {
+	function store(fn = false) {
+		if (fn) {
+			fn();
+		}
+
 		http
 			.post('/pembayaran/biaya-lain', state.req)
 			.then((res) => res.json())
@@ -134,6 +138,7 @@
 					Total_Bayar: 'total_bayar',
 					Terbayar: 'terbayar',
 					Belum_Terbayar: 'belum_terbayar',
+					Bayar: 'bayar',
 					Opsi: 'opsi',
 				}"
 				:items="state.biaya_lain"
@@ -170,6 +175,45 @@
 					}}
 				</template>
 
+				<template #bayar="{ item }">
+					<form
+						@submit.prevent="
+							store(() => {
+								state.req.biaya_lain_id = item.id;
+								state.req.siswa_nisn = props.siswa.nisn;
+								state.req.jumlah_bayar = $event.currentTarget[0].value;
+							})
+						"
+						class="inline"
+					>
+						<input
+							type="number"
+							:placeholder="
+								formatMoney(
+									item.jumlah_bayar -
+										(item.jumlah_bayar * props.siswa.diskon_biaya_lain) / 100 -
+										(state.terbayar[item.id] ? state.terbayar[item.id] : 0),
+								)
+							"
+							min="1"
+							:max="
+								item.jumlah_bayar -
+								(item.jumlah_bayar * props.siswa.diskon_biaya_lain) / 100 -
+								(state.terbayar[item.id] ? state.terbayar[item.id] : 0)
+							"
+							:disabled="
+								item.jumlah_bayar -
+									(item.jumlah_bayar * props.siswa.diskon_biaya_lain) / 100 -
+									(state.terbayar[item.id] ? state.terbayar[item.id] : 0) <=
+								0
+							"
+							required
+							class="mr-2 h-10 rounded border-gray-100 text-gray-500 shadow outline-none w-120px disabled:bg-gray-100"
+						/>
+						<button type="submit" class="hidden"></button>
+					</form>
+				</template>
+
 				<template #opsi="{ item }">
 					<div class="bg-white rounded inline-block px-1">
 						<button
@@ -177,8 +221,8 @@
 								state.item = JSON.parse(JSON.stringify(item));
 								state.modal.save = true;
 
-								state.req.biaya_lain_id = item.id;
 								state.req.jumlah_bayar = '';
+								state.req.biaya_lain_id = item.id;
 								state.req.siswa_nisn = props.siswa.nisn;
 								state.req.max_jumlah_bayar =
 									item.jumlah_bayar -
@@ -205,7 +249,10 @@
 						<div class="rounded-t p-4 bg-gray-100">
 							<div class="form-field">
 								<div class="oveflow-x-auto bg-white mb-4 rounded p-2 relative">
-									<div class="absolute bottom-5 px-4 right-5 transform p-1 -rotate-12 border-2 border-purple-500 text-purple-500 rounded" v-if="state.req.max_jumlah_bayar <= 0">
+									<div
+										class="absolute bottom-5 px-4 right-5 transform p-1 -rotate-12 border-2 border-purple-500 text-purple-500 rounded"
+										v-if="state.req.max_jumlah_bayar <= 0"
+									>
 										LUNAS
 									</div>
 									<table>

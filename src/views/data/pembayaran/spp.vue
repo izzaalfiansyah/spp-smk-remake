@@ -1,7 +1,7 @@
 <script setup>
 	import { reactive, watchEffect } from 'vue';
 	import Card from '../../../components/Card.vue';
-	import { http, notify, auth } from '../../../lib';
+	import { http, notify, auth, formatDate } from '../../../lib';
 	import Loading from '../../../components/Loading.vue';
 
 	const props = defineProps(['siswa']);
@@ -11,7 +11,7 @@
 		item: [],
 		isLoading: false,
 		totalKekurangan: 12 * 3,
-		kelas: ['X', 'XI', 'XII'],
+		kelas: ['XII', 'XI', 'X'],
 	});
 
 	function get() {
@@ -92,7 +92,7 @@
 			(props.siswa.jurusan.jumlah_spp * props.siswa.diskon_spp) / 100;
 
 		let noData = [];
-		state.kelas.forEach((kelas) => {
+		[...state.kelas].reverse().forEach((kelas) => {
 			bulan.forEach((bulan) => {
 				if (!state.item[kelas + '-' + bulan]) {
 					noData = [
@@ -170,7 +170,7 @@
 				</form>
 			</div>
 			<Loading v-if="state.isLoading"></Loading>
-			<div v-for="kelas in state.kelas.slice(0, state.kelas.indexOf(props.siswa.kelas) + 1)">
+			<div v-for="kelas in state.kelas.slice(state.kelas.indexOf(props.siswa.kelas))">
 				<div class="my-3 text-lg">Kelas {{ kelas }}</div>
 				<div class="grid grid-flow-col lg:grid-rows-4 grid-rows-6 grid-rows-12 gap-3">
 					<div
@@ -217,7 +217,8 @@
 							v-if="state.item[kelas + '-' + item]"
 							class="absolute bottom-0 right-0 text-xs text-white bg-green-500 shadow px-2 rounded-tl"
 						>
-							{{ state.item[kelas + '-' + item].user.nama }}
+							{{ state.item[kelas + '-' + item].user.nama }},
+							{{ formatDate(state.item[kelas + '-' + item].created_at.slice(0, 10)) }}
 						</div>
 					</div>
 				</div>

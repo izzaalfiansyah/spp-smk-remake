@@ -226,7 +226,7 @@
 	<Modal v-model="state.modal.save">
 		<Card :title="state.isMinus ? 'Ambil Tabungan' : 'Tambah Tabungan'" class="w-500px max-w-full">
 			<Form @submit="save" class="form-field" :values="state.req" :rules="rules">
-				<div v-if="state.isMinus">
+				<div>
 					<label for="">Pilih Tabungan</label>
 					<select v-model="state.req.status_tabungan">
 						<option value="1">Tabungan Wajib</option>

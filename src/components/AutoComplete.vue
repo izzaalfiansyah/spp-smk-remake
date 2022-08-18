@@ -85,7 +85,7 @@
 		>
 			<div class="overflow-y-auto max-h-200px">
 				<div
-					v-for="item in data.slice(0, 10)"
+					v-for="item in data"
 					class="hover:bg-blue-400 hover:text-white p-1.5 px-2 cursor-pointer transition"
 					@click="handleSelect(item)"
 				>

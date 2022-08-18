@@ -64,7 +64,10 @@
 				No: 'no',
 				Kelas: 'kelas',
 				Jumlah_Pembayaran: 'jumlah_pembayaran',
-				Total: 'total_bayar',
+				Jumlah_Total: 'total_bayar',
+				Jumlah_Keringanan: 'jumlah_keringanan',
+				Uang_Keringanan: 'uang_keringanan',
+				Total_SPP_Keringanan: 'total_keringanan',
 			}"
 			:items="state.data"
 		>
@@ -74,6 +77,18 @@
 
 			<template #kelas="{ item }">
 				{{ item.kelas }} {{ item.jurusan_kode }} {{ item.rombel }}
+			</template>
+
+			<template #jumlah_pembayaran="{ item }"> {{ item.jumlah_pembayaran }} Orang </template>
+
+			<template #jumlah_keringanan="{ item }"> {{ item.keringanan.jumlah }} Orang </template>
+
+			<template #uang_keringanan="{ item }">
+				{{ formatMoney(item.keringanan.uang) }}
+			</template>
+
+			<template #total_keringanan="{ item }">
+				{{ formatMoney(item.keringanan.total) }}
 			</template>
 
 			<template #total_bayar="{ item }">

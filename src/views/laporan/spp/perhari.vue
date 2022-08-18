@@ -9,6 +9,7 @@
 			_tanggal: '',
 		},
 		total: 0,
+		total_bulan: 0,
 		data: [],
 		excel_url: '',
 		print_url: '',
@@ -27,6 +28,7 @@
 				state.data = res;
 
 				res.forEach((item) => {
+					state.total_bulan += parseInt(item.total_bulan.replace(' Bulan'));
 					state.total += item.total_bayar + item.total_tabungan;
 				});
 			})
@@ -60,6 +62,7 @@
 				Kelas: 'siswa_kelas',
 				Bulan: 'total_bulan',
 				Total: 'total_bayar',
+				Petugas: 'operator',
 			}"
 			:items="state.data"
 		>
@@ -78,7 +81,14 @@
 			<template #total_bayar="{ item }">
 				{{ formatMoney(item.total_bayar + item.total_tabungan) }}
 			</template>
+
+			<template #operator="{ item }">
+				{{ item.operator.nama }}
+			</template>
 		</Table>
-		<div class="p-4 bg-gray-50 rounded mb-4">Total: {{ formatMoney(state.total) }}</div>
+		<div class="p-4 bg-gray-50 rounded mb-4">
+			<div>Total Bulan: {{ state.total_bulan }} Bulan</div>
+			<div>Total Pembayaran: {{ formatMoney(state.total) }}</div>
+		</div>
 	</Card>
 </template>

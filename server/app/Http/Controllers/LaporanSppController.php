@@ -27,6 +27,8 @@ class LaporanSppController extends Controller
             foreach ($data as $key => $item) {
                 $data[$key]->total_bulan = $item->total_bulan . ' Bulan';
                 $data[$key]->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
+                $data[$key]->user_id = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->first()->user_id;
+                $data[$key]->operator = DB::table('user')->where('id', $data[$key]->user_id)->first();
             }
         }
 
@@ -40,7 +42,7 @@ class LaporanSppController extends Controller
         $data = $this->perhari($req)->original;
 
         $content = [];
-        $total = 0;
+        $total = $total_bulan = 0;
 
         foreach ($data as $key => $item) {
             $content[] = [
@@ -51,10 +53,11 @@ class LaporanSppController extends Controller
                 $item->total_bulan,
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),
             ];
+            $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', '', 'TOTAL', $this->formatMoney($total)]);
+        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)]);
     }
 
     public function perhari_excel(Request $req)
@@ -62,7 +65,7 @@ class LaporanSppController extends Controller
         $data = $this->perhari($req)->original;
 
         $content = [];
-        $total = 0;
+        $total = $total_bulan = 0;
 
         foreach ($data as $key => $item) {
             $content[] = [
@@ -73,10 +76,11 @@ class LaporanSppController extends Controller
                 $item->total_bulan,
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),
             ];
+            $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . date('Y-m-d'));
+        return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], 'laporan-spp-' . date('Y-m-d'));
     }
 
     public function perbulan(Request $req)
@@ -104,6 +108,25 @@ class LaporanSppController extends Controller
 
             foreach ($data as $key => $item) {
                 $data[$key]->jumlah_pembayaran = $item->jumlah_pembayaran/* . ' Transaksi'*/;
+
+                $jurusan = DB::table('jurusan')->where('kode', $item->jurusan_kode)->first();
+                $siswa = DB::table('siswa')
+                    ->where('diskon_spp', '>', '0')
+                    ->where('jurusan_kode', $item->jurusan_kode)->get();
+
+                $keringanan = (object) [
+                    'jumlah' => 0,
+                    'uang' => 0,
+                    'total' => 0,
+                ];
+
+                foreach ($siswa as $s) {
+                    $keringanan->jumlah += 1;
+                    $keringanan->uang += $jurusan->jumlah_spp * ($s->diskon_spp / 100);
+                    $keringanan->total += ($jurusan->jumlah_spp - $keringanan->uang);
+                }
+
+                $data[$key]->keringanan = $keringanan;
             }
         }
 
@@ -123,13 +146,16 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran,
+                $item->jumlah_pembayaran . ' Orang',
+                $item->keringanan->jumlah . ' Orang',
+                $this->formatMoney($item->keringanan->uang),
+                $this->formatMoney($item->keringanan->total),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),
             ];
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH PEMBAYARAN', 'TOTAL'], ['', '', 'TOTAL', $this->formatMoney($total)]);
+        return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)]);
     }
 
     public function perbulan_excel(Request $req)
@@ -143,13 +169,16 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran,
+                $item->jumlah_pembayaran . ' Orang',
+                $item->keringanan->jumlah . ' Orang',
+                $this->formatMoney($item->keringanan->uang),
+                $this->formatMoney($item->keringanan->total),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),
             ];
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH PEMBAYARAN', 'TOTAL'], ['', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . date('Y-M'));
+        return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . date('Y-M'));
     }
 
     public function perkelas(Request $req)
@@ -173,14 +202,14 @@ class LaporanSppController extends Controller
 
             foreach ($data as $key => $item) {
                 $spp = DB::table('pembayaran_spp')
-                ->select(
-                    DB::raw('count(id) as jumlah_pembayaran'),
-                    DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
-                    DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
-                )
-                ->where('siswa_nisn', $item->nisn)
-                ->where('status_kelas', $kelas)
-                ->first();
+                    ->select(
+                        DB::raw('count(id) as jumlah_pembayaran'),
+                        DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
+                        DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
+                    )
+                    ->where('siswa_nisn', $item->nisn)
+                    ->where('status_kelas', $kelas)
+                    ->first();
                 $data[$key]->spp = $spp;
             }
         }
