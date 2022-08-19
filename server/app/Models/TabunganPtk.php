@@ -5,29 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PembayaranSpp extends Model
+class TabunganPtk extends Model
 {
     use HasFactory;
 
-    public $table = 'pembayaran_spp';
+    public $table = 'tabungan_ptk';
 
     public $fillable = [
-        'siswa_nisn',
+        'ptk_id',
         'user_id',
-        'bulan',
-        'jumlah_bayar',
-        'tabungan_wajib',
-        'status_kelas'
+        'nominal',
     ];
 
     public $casts = [
-        'jumlah_bayar' => 'int',
-        'tabungan_wajib' => 'int',
+        'nominal' => 'int',
     ];
 
     public $with = [
+        'ptk',
         'user',
     ];
+
+    public function ptk()
+    {
+        return $this->belongsTo(Ptk::class);
+    }
 
     public function user()
     {

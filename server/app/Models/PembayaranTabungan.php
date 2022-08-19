@@ -18,6 +18,10 @@ class PembayaranTabungan extends Model
         'status_tabungan',
     ];
 
+    public $casts = [
+        'jumlah_bayar' => 'int',
+    ];
+
     public $with = [
         'user',
     ];

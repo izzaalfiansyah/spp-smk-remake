@@ -36,6 +36,10 @@ const router = createRouter({
 			component: () => import('../views/data/pembayaran.vue'),
 		},
 		{
+			path: '/data/ptk',
+			component: () => import('../views/data/ptk.vue'),
+		},
+		{
 			path: '/laporan/spp',
 			component: () => import('../views/laporan/spp.vue'),
 		},

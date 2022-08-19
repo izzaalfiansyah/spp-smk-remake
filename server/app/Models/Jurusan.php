@@ -24,4 +24,8 @@ class Jurusan extends Model
         'nama',
         'jumlah_spp',
     ];
+
+    public $casts = [
+        'jumlah_spp' => 'int',
+    ];
 }

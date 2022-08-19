@@ -21,5 +21,6 @@ class BiayaLain extends Model
     public $casts = [
         'jurusan_data' => 'object',
         'kelas_data' => 'object',
+        'jumlah_bayar' => 'int',
     ];
 }

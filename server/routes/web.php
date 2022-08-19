@@ -25,6 +25,8 @@ Route::middleware(Bearer::class)->group(function () {
   Route::get('/siswa/{nisn}', [Controller\SiswaController::class, 'show'])->where('nisn', '(.*)');
   Route::resource('/siswa', Controller\SiswaController::class);
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
+  Route::resource('/ptk/tabungan', Controller\TabunganPtkController::class);
+  Route::resource('/ptk', Controller\PtkController::class);
   Route::prefix('/pembayaran')->group(function () {
     Route::post('/spp/batch', [Controller\PembayaranSppController::class, 'insertBatch']);
     Route::resource('/spp', Controller\PembayaranSppController::class);

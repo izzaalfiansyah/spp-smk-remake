@@ -29,6 +29,11 @@ class Siswa extends Model
         'diskon_biaya_lain',
     ];
 
+    public $casts = [
+        'diskon_spp' => 'int',
+        'diskon_biaya_lain' => 'int',
+    ];
+
     public $with = [
         'jurusan',
     ];

@@ -18,6 +18,10 @@ class PembayaranBiayaLain extends Model
         'jumlah_bayar',
     ];
 
+    public $casts = [
+        'jumlah_bayar' => 'int',
+    ];
+
     public $with = [
         'user',
         'biaya_lain',

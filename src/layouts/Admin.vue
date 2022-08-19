@@ -64,6 +64,11 @@
 								icon: 'sd_card',
 								path: '/data/pembayaran',
 							},
+							{
+								title: 'Data PTK',
+								icon: 'account_balance',
+								path: '/data/ptk',
+							},
 					  ]
 					: [
 							{
@@ -75,6 +80,11 @@
 								title: 'Data Pembayaran',
 								icon: 'sd_card',
 								path: '/data/pembayaran',
+							},
+							{
+								title: 'Data PTK',
+								icon: 'account_balance',
+								path: '/data/ptk',
 							},
 					  ],
 		},
@@ -102,9 +112,9 @@
 		// 	section: 'Lain-lain',
 		// 	items: [
 		// 		{
-		// 			title: 'Tabungan Pegawai',
+		// 			title: 'Tabungan PTK',
 		// 			icon: 'account_balance',
-		// 			path: '/tabungan/pegawai',
+		// 			path: '/lain-lain/tabungan-ptk',
 		// 		},
 		// 	],
 		// },
