@@ -79,7 +79,7 @@
 		}
 	}
 
-	function store(fn = false) {
+	function store(e = {}, fn = false) {
 		if (fn) {
 			fn();
 		}
@@ -92,6 +92,9 @@
 					notify('pembayaran berhasil disimpan');
 					state.req.max_jumlah_bayar -= state.req.jumlah_bayar;
 					state.req.jumlah_bayar = '';
+					if (e) {
+						e[0].value = '';
+					}
 					resolve(true);
 				}).then(() => {
 					getData();
@@ -178,7 +181,7 @@
 				<template #bayar="{ item }">
 					<form
 						@submit.prevent="
-							store(() => {
+							store($event.currentTarget, () => {
 								state.req.biaya_lain_id = item.id;
 								state.req.siswa_nisn = props.siswa.nisn;
 								state.req.jumlah_bayar = $event.currentTarget[0].value;
@@ -208,7 +211,7 @@
 								0
 							"
 							required
-							class="mr-2 h-10 rounded border-gray-100 text-gray-500 shadow outline-none w-120px disabled:bg-gray-100"
+							class="h-10 rounded border-gray-100 text-gray-500 shadow outline-none w-120px disabled:bg-gray-100 focus:invalid:(ring-2 ring-red-500)"
 						/>
 						<button type="submit" class="hidden"></button>
 					</form>

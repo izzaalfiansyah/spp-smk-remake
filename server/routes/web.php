@@ -22,6 +22,7 @@ Route::middleware(Bearer::class)->group(function () {
   Route::resource('/user', Controller\UserController::class);
   Route::resource('/jurusan', Controller\JurusanController::class);
   Route::post('/siswa/import', [Controller\SiswaController::class, 'import']);
+  Route::get('/siswa/{nisn}', [Controller\SiswaController::class, 'show'])->where('nisn', '(.*)');
   Route::resource('/siswa', Controller\SiswaController::class);
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
   Route::prefix('/pembayaran')->group(function () {
@@ -37,7 +38,7 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/perkelas', [Controller\LaporanSppController::class, 'perkelas']);
       Route::get('/bagan', [Controller\LaporanSppController::class, 'bagan']);
       Route::get('/kekurangan', [Controller\LaporanSppController::class, 'kekurangan']);
-      
+
       Route::get('/perhari/excel', [Controller\LaporanSppController::class, 'perhari_excel']);
       Route::get('/perbulan/excel', [Controller\LaporanSppController::class, 'perbulan_excel']);
       Route::get('/perkelas/excel', [Controller\LaporanSppController::class, 'perkelas_excel']);
@@ -62,7 +63,7 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/perhari', [Controller\LaporanTabunganController::class, 'perhari']);
       Route::get('/perbulan', [Controller\LaporanTabunganController::class, 'perbulan']);
       Route::get('/perkelas', [Controller\LaporanTabunganController::class, 'perkelas']);
-      
+
       Route::get('/perhari/excel', [Controller\LaporanTabunganController::class, 'perhari_excel']);
       Route::get('/perbulan/excel', [Controller\LaporanTabunganController::class, 'perbulan_excel']);
       Route::get('/perkelas/excel', [Controller\LaporanTabunganController::class, 'perkelas_excel']);

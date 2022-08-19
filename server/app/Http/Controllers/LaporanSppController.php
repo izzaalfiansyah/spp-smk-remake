@@ -107,8 +107,6 @@ class LaporanSppController extends Controller
             $data = $builder->get();
 
             foreach ($data as $key => $item) {
-                $data[$key]->jumlah_pembayaran = $item->jumlah_pembayaran/* . ' Transaksi'*/;
-
                 $jurusan = DB::table('jurusan')->where('kode', $item->jurusan_kode)->first();
                 $siswa = DB::table('siswa')
                     ->where('diskon_spp', '>', '0')
@@ -146,8 +144,8 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran . ' Orang',
-                $item->keringanan->jumlah . ' Orang',
+                $item->jumlah_pembayaran . ' Transaksi',
+                $item->keringanan->jumlah . ' Transaksi',
                 $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),
@@ -169,8 +167,8 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran . ' Orang',
-                $item->keringanan->jumlah . ' Orang',
+                $item->jumlah_pembayaran . ' Transaksi',
+                $item->keringanan->jumlah . ' Transaksi',
                 $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan),

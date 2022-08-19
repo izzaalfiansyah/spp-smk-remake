@@ -40,9 +40,11 @@
 
 	function getItem() {
 		http
-			.get('/siswa/' + nisn.value)
+			.get('/siswa/' + encodeURIComponent(nisn.value))
 			.then((res) => res.json())
-			.then((res) => (state.siswa.item = res));
+			.then((res) => {
+				state.siswa.item = res;
+			});
 	}
 
 	function handleSubmit() {
@@ -58,7 +60,7 @@
 	);
 
 	onMounted(() => {
-		get();
+		// get();
 		if (nisn.value) getItem();
 	});
 </script>
@@ -69,7 +71,8 @@
 		<div class="lg:w-2/5 p-2 w-full">
 			<Card>
 				<form @submit.prevent="handleSubmit" class="form-field">
-					<AutoComplete
+					<input type="text" required placeholder="Masukkan NISN" v-model="state.siswa_nisn" />
+					<!-- <AutoComplete
 						placeholder="Pilih Siswa"
 						:items="
 							state.siswa.items.map((item) => ({
@@ -86,7 +89,7 @@
 						<span class="font-semibold">{{ item.nisn }}</span>
 						<br />
 						{{ item.nama }}
-					</AutoComplete>
+					</AutoComplete> -->
 					<button type="submit" class="w-full">Cari</button>
 				</form>
 			</Card>
@@ -98,7 +101,7 @@
 						<tr>
 							<td>NISN</td>
 							<td class="px-2">:</td>
-							<td>{{ state.siswa.item.nisn }}</td>
+							<td>{{ decodeURIComponent(state.siswa.item.nisn) }}</td>
 						</tr>
 						<tr>
 							<td>Nama</td>
@@ -128,7 +131,7 @@
 				<option value="tabungan">Tabungan</option>
 			</select>
 		</div>
-		
+
 		<div class="custom-main-admin">
 			<component :siswa="state.siswa.item" :is="componentPembayaran[state.tanggungan]"></component>
 		</div>

@@ -6,7 +6,7 @@
 	import { http, notify, readFile } from '../../lib';
 	import Pagination from '../../components/Pagination.vue';
 	import Form, { rule } from '../../components/Form.vue';
-import Loading from '../../components/Loading.vue';
+	import Loading from '../../components/Loading.vue';
 
 	const state = reactive({
 		isEdit: false,
@@ -85,7 +85,7 @@ import Loading from '../../components/Loading.vue';
 	function save() {
 		state.isEdit
 			? http
-					.put('/siswa/' + state.req.nisn, state.req)
+					.put('/siswa/' + state.req.old_nisn, state.req)
 					.then((res) => res.json())
 					.then((res) => {
 						state.modal.save = false;
@@ -110,7 +110,7 @@ import Loading from '../../components/Loading.vue';
 
 	function destroy() {
 		http
-			.delete('/siswa/' + state.req.nisn)
+			.delete('/siswa/' + state.req.old_nisn)
 			.then((res) => res.json())
 			.then((res) => {
 				state.modal.delete = false;
@@ -220,6 +220,7 @@ import Loading from '../../components/Loading.vue';
 					<button
 						@click="
 							state.req = JSON.parse(JSON.stringify(item));
+							state.req.old_nisn = state.req.nisn;
 							state.isEdit = true;
 							state.modal.save = true;
 						"
@@ -230,6 +231,7 @@ import Loading from '../../components/Loading.vue';
 					<button
 						@click="
 							state.req = JSON.parse(JSON.stringify(item));
+							state.req.old_nisn = state.req.nisn;
 							state.modal.delete = true;
 						"
 						class="material-icons-outlined text-red-500 !text-xl"

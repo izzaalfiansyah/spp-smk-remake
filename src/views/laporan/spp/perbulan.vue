@@ -1,8 +1,8 @@
 <script setup>
-	import { reactive, watch } from 'vue';
+	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../../components/Card.vue';
 	import Table from '../../../components/Table.vue';
-	import { formatDate, formatMoney, http, notify } from '../../../lib';
+	import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
 
 	const state = reactive({
 		filter: {
@@ -38,6 +38,11 @@
 	watch(state.filter, () => {
 		get();
 	});
+
+	onMounted(() => {
+		state.filter._tanggal_awal = nowDate();
+		state.filter._tanggal_akhir = nowDate();
+	});
 </script>
 
 <template>
@@ -53,7 +58,8 @@
 			</div>
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">
-			Rentang Waktu: {{ state.filter._tanggal_awal }} - {{ state.filter._tanggal_akhir }}
+			Rentang Waktu: {{ formatDate(state.filter._tanggal_awal) }} -
+			{{ formatDate(state.filter._tanggal_akhir) }}
 		</div>
 		<div class="text-right mb-4 text-sm">
 			<a target="_blank" :href="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
@@ -79,9 +85,9 @@
 				{{ item.kelas }} {{ item.jurusan_kode }} {{ item.rombel }}
 			</template>
 
-			<template #jumlah_pembayaran="{ item }"> {{ item.jumlah_pembayaran }} Orang </template>
+			<template #jumlah_pembayaran="{ item }"> {{ item.jumlah_pembayaran }} Transaksi </template>
 
-			<template #jumlah_keringanan="{ item }"> {{ item.keringanan.jumlah }} Orang </template>
+			<template #jumlah_keringanan="{ item }"> {{ item.keringanan.jumlah }} Transaksi </template>
 
 			<template #uang_keringanan="{ item }">
 				{{ formatMoney(item.keringanan.uang) }}

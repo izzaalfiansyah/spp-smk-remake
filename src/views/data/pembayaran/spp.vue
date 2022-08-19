@@ -31,7 +31,7 @@
 					);
 
 					state.item = [];
-					state.totalKekurangan = 12 * (state.kelas.indexOf(props.siswa.kelas) + 1);
+					state.totalKekurangan = 12 * ([...state.kelas].reverse().indexOf(props.siswa.kelas) + 1);
 					res.forEach((item) => {
 						state.totalKekurangan -= 1;
 						state.item[item.status_kelas + '-' + item.bulan] = item;
@@ -215,7 +215,7 @@
 						</table>
 						<div
 							v-if="state.item[kelas + '-' + item]"
-							class="absolute bottom-0 right-0 text-xs text-white bg-green-500 shadow px-2 rounded-tl"
+							class="absolute bottom-0 right-0 text-[10px] text-white bg-green-500 shadow p-0.5 px-2 rounded-tl"
 						>
 							{{ state.item[kelas + '-' + item].user.nama }},
 							{{ formatDate(state.item[kelas + '-' + item].created_at.slice(0, 10)) }}

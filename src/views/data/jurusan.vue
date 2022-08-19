@@ -44,13 +44,13 @@
 			.then((res) => (state.data.items = res))
 			.catch((err) => {
 				notify(err, 'bg-red-400');
-			});;
+			});
 	}
 
 	function save() {
 		state.isEdit
 			? http
-					.put('/jurusan/' + state.req.kode, state.req)
+					.put('/jurusan/' + state.req.old_kode, state.req)
 					.then((res) => res.json())
 					.then((res) => {
 						notify('data berhasil diedit');
@@ -71,7 +71,7 @@
 
 	function destroy() {
 		http
-			.delete('/jurusan/' + state.req.kode)
+			.delete('/jurusan/' + state.req.old_kode)
 			.then((res) => res.json())
 			.then((res) => {
 				notify('data berhasil dihapus');
@@ -128,6 +128,7 @@
 							state.modal.save = true;
 							state.isEdit = true;
 							state.req = JSON.parse(JSON.stringify(item));
+							state.req.old_kode = state.req.kode;
 						"
 						class="material-icons-outlined text-blue-500 !text-xl"
 					>
@@ -137,6 +138,7 @@
 						@click="
 							state.modal.delete = true;
 							state.req = JSON.parse(JSON.stringify(item));
+							state.req.old_kode = state.req.kode;
 						"
 						class="material-icons-outlined text-red-500 !text-xl"
 					>

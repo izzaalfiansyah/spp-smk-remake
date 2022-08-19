@@ -109,8 +109,8 @@ class SiswaController extends Controller
                     $kelas_jurusan_rombel = explode(' ', $item[2]);
                     $jurusan_kode = $kelas_jurusan_rombel[1];
                     $kelas = $kelas_jurusan_rombel[0];
-                    $rombel = count($kelas_jurusan_rombel) <= 3 ? '1' : $kelas_jurusan_rombel[2];
-                    
+                    $rombel = count($kelas_jurusan_rombel) < 3 ? '1' : $kelas_jurusan_rombel[2];
+
                     Model::firstOrCreate(['nisn' => $nisn], [
                         'nisn' => $nisn,
                         'nama' => $nama,
