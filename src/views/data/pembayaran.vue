@@ -94,7 +94,7 @@
 				</form>
 			</Card>
 		</div>
-		<div class="lg:w-3/5 p-2 w-full" v-if="nisn">
+		<div class="lg:w-3/5 p-2 w-full" v-if="state.siswa.item.nisn">
 			<Card title="Detail Siswa" class="!bg-gradient-to-bl from-blue-400 to-blue-500 !text-white">
 				<div class="overflow-x-auto">
 					<table class="whitespace-nowrap">
@@ -116,12 +116,26 @@
 								{{ state.siswa.item.rombel }}
 							</td>
 						</tr>
+						<tr>
+							<td>Potongan</td>
+							<td class="px-2">:</td>
+							<td>
+								SPP ({{ state.siswa.item.diskon_spp }}%) ~ Biaya Lain ({{
+									state.siswa.item.diskon_biaya_lain
+								}}%)
+							</td>
+						</tr>
 					</table>
 				</div>
 			</Card>
 		</div>
+		<div class="lg:w-3/5 p-2 w-full" v-else>
+			<Card title="Detail Siswa" class="!bg-blue-100">
+				<div class="text-center">Siswa tidak ditemukan.</div>
+			</Card>
+		</div>
 	</div>
-	<div v-if="nisn">
+	<div v-if="state.siswa.item.nisn">
 		<div class="pb-4 border-b mb-4"></div>
 		<div class="w-full form-field" lg="w-1/2">
 			<select v-model="state.tanggungan">

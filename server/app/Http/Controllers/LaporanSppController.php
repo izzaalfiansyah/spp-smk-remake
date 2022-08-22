@@ -87,10 +87,10 @@ class LaporanSppController extends Controller
     {
         $data = [];
 
-        if ($tanggal_awal = $req->_tanggal_awal && $tanggal_akhir = $req->_tanggal_akhir) {
+        if (($tanggal_awal = $req->_tanggal_awal) && ($tanggal_akhir = $req->_tanggal_akhir)) {
             $builder = new \App\Models\PembayaranSpp();
             $builder = $builder->select(
-                DB::raw('count(id) as jumlah_pembayaran'),
+                DB::raw('count(pembayaran_spp.id) as jumlah_pembayaran'),
                 'siswa.kelas as kelas',
                 'siswa.jurusan_kode as jurusan_kode',
                 'siswa.rombel as rombel',
@@ -120,7 +120,7 @@ class LaporanSppController extends Controller
 
                 foreach ($siswa as $s) {
                     $keringanan->jumlah += 1;
-                    $keringanan->uang += $jurusan->jumlah_spp * ($s->diskon_spp / 100);
+                    $keringanan->uang += ($jurusan->jumlah_spp * ($s->diskon_spp / 100)) - ($jurusan->kategori == '2' ? ($siswa->diskon_spp > 50 ? 10000 : 0) : 0);
                     $keringanan->total += ($jurusan->jumlah_spp - $keringanan->uang);
                 }
 
@@ -426,10 +426,10 @@ class LaporanSppController extends Controller
                 $item->nisn,
                 $item->nama,
                 $item->kekurangan,
-                $this->formatMoney($item->kekurangan * ($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))),
+                $this->formatMoney($item->kekurangan * (($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))) - ($item->jurusan->kategori == '2' ? ($item->diskon_spp > 50 ? 10000 : 0) : 0)),
             ];
 
-            $total += $item->kekurangan * ($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100));
+            $total += $item->kekurangan * (($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))) - ($item->jurusan->kategori == '2' ? ($item->diskon_spp > 50 ? 10000 : 0) : 0);
             $totalKekurangan += $item->kekurangan;
         }
 
@@ -453,10 +453,10 @@ class LaporanSppController extends Controller
                 "'{$item->nisn}'",
                 $item->nama,
                 $item->kekurangan,
-                $this->formatMoney($item->kekurangan * ($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))),
+                $this->formatMoney($item->kekurangan * (($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))) - ($item->jurusan->kategori == '2' ? ($item->diskon_spp > 50 ? 10000 : 0) : 0)),
             ];
 
-            $total += $item->kekurangan * ($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100));
+            $total += $item->kekurangan * (($item->jurusan->jumlah_spp - ($item->jurusan->jumlah_spp * $item->diskon_spp / 100))) - ($item->jurusan->kategori == '2' ? ($item->diskon_spp > 50 ? 10000 : 0) : 0);
             $totalKekurangan += $item->kekurangan;
         }
 

@@ -17,6 +17,10 @@ class LaporanBiayaLainController extends Controller
             $builder = $builder->leftJoin('biaya_lain', 'biaya_lain.id', '=', 'biaya_lain_id');
             $builder = $builder->whereDate('pembayaran_biaya_lain.created_at', $tanggal);
 
+            if ($biaya_lain_id = $req->_biaya_lain_id) {
+                $builder = $builder->where('biaya_lain.id', $biaya_lain_id);
+            }
+
             $data = $builder->get();
 
             foreach ($data as $key => $item) {
@@ -136,8 +140,8 @@ class LaporanBiayaLainController extends Controller
         }
 
         return response()->json($data)
-        ->header('X-Excel-Url', url('/laporan/biaya-lain/perkelas/excel?' . http_build_query($req->all())))
-        ->header('X-Print-Url', url('/laporan/biaya-lain/perkelas/print?' . http_build_query($req->all())));
+            ->header('X-Excel-Url', url('/laporan/biaya-lain/perkelas/excel?' . http_build_query($req->all())))
+            ->header('X-Print-Url', url('/laporan/biaya-lain/perkelas/print?' . http_build_query($req->all())));
     }
 
     public function perkelas_print(Request $req)
@@ -149,13 +153,13 @@ class LaporanBiayaLainController extends Controller
             array_push($headerBiayaLain, strtoupper($item->jenis));
             array_push($headerBiayaLain, '');
         }
-        
+
         $header = ['NO', 'NISN', 'NAMA'];
         foreach ($data[0]->biaya_lain as $item) {
             array_push($header, 'TERBAYAR');
             array_push($header, 'KEKURANGAN');
         }
-        
+
         $content = [
             $headerBiayaLain,
             $header
@@ -188,13 +192,13 @@ class LaporanBiayaLainController extends Controller
             array_push($headerBiayaLain, strtoupper($item->jenis));
             array_push($headerBiayaLain, '');
         }
-        
+
         $header = ['NO', 'NISN', 'NAMA'];
         foreach ($data[0]->biaya_lain as $item) {
             array_push($header, 'TERBAYAR');
             array_push($header, 'KEKURANGAN');
         }
-        
+
         $content = [
             $headerBiayaLain,
             $header

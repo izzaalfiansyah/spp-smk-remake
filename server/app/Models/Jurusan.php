@@ -22,6 +22,7 @@ class Jurusan extends Model
     public $fillable = [
         'kode',
         'nama',
+        'kategori',
         'jumlah_spp',
     ];
 

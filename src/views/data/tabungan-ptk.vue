@@ -28,7 +28,7 @@
 			status: '',
 		},
 		filter: {
-			_limit: 10,
+			_limit: 5,
 			_page: 1,
 			_ptk_id: '',
 		},
@@ -140,6 +140,7 @@
 		</div>
 		<div class="form-field">
 			<select v-model="state.filter._limit" class="!mr-3 !w-20">
+				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="20">20</option>
 				<option value="50">50</option>

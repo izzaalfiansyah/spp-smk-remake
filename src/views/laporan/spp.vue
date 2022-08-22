@@ -27,9 +27,9 @@
 				<option disabled value="">Pilih Laporan SPP</option>
 				<option value="perhari">Laporan Perhari</option>
 				<option value="perbulan">Laporan Perbulan</option>
-				<option value="perkelas">Laporan Perkelas</option>
+				<!-- <option value="perkelas">Laporan Perkelas</option> -->
 				<option value="bagan">Laporan Bagan</option>
-				<option value="kekurangan">Laporan Kekurangan</option>
+				<!-- <option value="kekurangan">Laporan Kekurangan</option> -->
 			</select>
 		</div>
 	</div>

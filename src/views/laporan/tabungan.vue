@@ -22,7 +22,7 @@
 			<select v-model="state.laporan">
 				<option disabled value="">Pilih Laporan Tabungan</option>
 				<option value="perhari">Laporan Perhari</option>
-				<option value="perbulan">Laporan Perbulan</option>
+				<!-- <option value="perbulan">Laporan Perbulan</option> -->
 				<option value="perkelas">Laporan Perkelas</option>
 			</select>
 		</div>

@@ -27,12 +27,14 @@ Route::middleware(Bearer::class)->group(function () {
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
   Route::resource('/ptk/tabungan', Controller\TabunganPtkController::class);
   Route::resource('/ptk', Controller\PtkController::class);
+
   Route::prefix('/pembayaran')->group(function () {
     Route::post('/spp/batch', [Controller\PembayaranSppController::class, 'insertBatch']);
     Route::resource('/spp', Controller\PembayaranSppController::class);
     Route::resource('/biaya-lain', Controller\PembayaranBiayaLainController::class);
     Route::resource('/tabungan', Controller\PembayaranTabunganController::class);
   });
+
   Route::prefix('/laporan')->group(function () {
     Route::prefix('/spp')->group(function () {
       Route::get('/perhari', [Controller\LaporanSppController::class, 'perhari']);
@@ -52,6 +54,7 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/bagan/print', [Controller\LaporanSppController::class, 'bagan_print']);
       Route::get('/kekurangan/print', [Controller\LaporanSppController::class, 'kekurangan_print']);
     });
+
     Route::prefix('/biaya-lain')->group(function () {
       Route::get('/perhari', [Controller\LaporanBiayaLainController::class, 'perhari']);
       Route::get('/perkelas', [Controller\LaporanBiayaLainController::class, 'perkelas']);
@@ -61,6 +64,7 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/perhari/print', [Controller\LaporanBiayaLainController::class, 'perhari_print']);
       Route::get('/perkelas/print', [Controller\LaporanBiayaLainController::class, 'perkelas_print']);
     });
+
     Route::prefix('/tabungan')->group(function () {
       Route::get('/perhari', [Controller\LaporanTabunganController::class, 'perhari']);
       Route::get('/perbulan', [Controller\LaporanTabunganController::class, 'perbulan']);
@@ -72,6 +76,18 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/perhari/print', [Controller\LaporanTabunganController::class, 'perhari_print']);
       Route::get('/perbulan/print', [Controller\LaporanTabunganController::class, 'perbulan_print']);
       Route::get('/perkelas/print', [Controller\LaporanTabunganController::class, 'perkelas_print']);
+    });
+
+    Route::prefix('/ptk')->group(function () {
+      Route::get('/', [Controller\PtkController::class, 'laporan']);
+      Route::get('/print', [Controller\PtkController::class, 'laporan_print']);
+      Route::get('/excel', [Controller\PtkController::class, 'laporan_excel']);
+    });
+
+    Route::prefix('/tunggakan')->group(function () {
+      Route::get('/', [Controller\LaporanTunggakanController::class, 'index']);
+      Route::get('/print', [Controller\LaporanTunggakanController::class, 'print']);
+      Route::get('/excel', [Controller\LaporanTunggakanController::class, 'excel']);
     });
   });
 });

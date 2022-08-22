@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ptk as Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -76,5 +77,72 @@ class PtkController extends Controller
             'nama' => 'required',
             'jabatan' => 'nullable',
         ];
+    }
+
+    public function laporan()
+    {
+        $builder = new Model();
+
+        $data = $builder->get();
+
+        foreach ($data as $key => $item) {
+            $total_tabungan = (int) DB::table('tabungan_ptk')->select(DB::raw('sum(nominal) as total'))->where('ptk_id', $item->id)->first()?->total;
+
+            $data[$key]->total_tabungan = $total_tabungan;
+        }
+
+        return response()->json($data)
+            ->header('X-Print-Url', url('/laporan/ptk/print'))
+            ->header('X-Excel-Url', url('/laporan/ptk/excel'));
+    }
+
+    public function laporan_print()
+    {
+        $data = $this->laporan()->original;
+
+        $header = ['NO', 'KODE', 'NAMA', 'JABATAN', 'TOTAL TABUNGAN'];
+        $content = [];
+        $total = 0;
+
+        foreach ($data as $key => $item) {
+            $content[] = [
+                $key + 1,
+                $item->kode,
+                $item->nama,
+                $item->jabatan,
+                $this->formatMoney($item->total_tabungan),
+            ];
+
+            $total += $item->total_tabungan;
+        }
+
+        $footer = ['', '', '', 'TOTAL', $this->formatMoney($total)];
+
+        return $this->toPrint($content, $header, $footer);
+    }
+
+    public function laporan_excel()
+    {
+        $data = $this->laporan()->original;
+
+        $header = ['NO', 'KODE', 'NAMA', 'JABATAN', 'TOTAL TABUNGAN'];
+        $content = [];
+        $total = 0;
+
+        foreach ($data as $key => $item) {
+            $content[] = [
+                $key + 1,
+                $item->kode,
+                $item->nama,
+                $item->jabatan,
+                $this->formatMoney($item->total_tabungan),
+            ];
+
+            $total += $item->total_tabungan;
+        }
+
+        $footer = ['', '', '', 'TOTAL', $this->formatMoney($total)];
+
+        return $this->toExcel($content, $header, $footer, 'laporan-tabungan-ptk');
     }
 }

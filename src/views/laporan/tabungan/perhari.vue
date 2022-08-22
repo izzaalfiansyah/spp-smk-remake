@@ -59,9 +59,9 @@
 				Nama_Siswa: 'siswa_nama',
 				Kelas: 'siswa_kelas',
 				Id: 'id',
-        Jenis_Tabungan: 'status_tabungan_detail',
-        Nominal: 'jumlah_bayar',
-        Operator: 'operator'
+				Jenis_Tabungan: 'status_tabungan_detail',
+				Nominal: 'jumlah_bayar',
+				Operator: 'operator',
 			}"
 			:items="state.data"
 		>
@@ -73,19 +73,19 @@
 				{{ item.siswa.nama }}
 			</template>
 
-			<template #siswa_kelas="{ item }">  
+			<template #siswa_kelas="{ item }">
 				{{ item.siswa.kelas }} {{ item.siswa.jurusan_kode }} {{ item.siswa.rombel }}
 			</template>
 
-      <template #id="{ item }">
-        {{ item.jumlah_bayar > 0 ? '1' : '0' }}
-      </template>
+			<template #id="{ item }">
+				{{ item.jumlah_bayar > 0 ? '1' : '2' }}
+			</template>
 
-      <template #jumlah_bayar="{ item }">
-        {{ formatMoney(item.jumlah_bayar) }}
-      </template>
+			<template #jumlah_bayar="{ item }">
+				{{ formatMoney(item.jumlah_bayar) }}
+			</template>
 
-			<template #operator="{ item }">  
+			<template #operator="{ item }">
 				{{ item.user.nama }}
 			</template>
 		</Table>

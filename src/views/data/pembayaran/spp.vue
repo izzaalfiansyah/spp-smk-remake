@@ -46,7 +46,12 @@
 		if (el.checked) {
 			const jumlah_bayar =
 				props.siswa.jurusan.jumlah_spp -
-				(props.siswa.jurusan.jumlah_spp * props.siswa.diskon_spp) / 100;
+				(props.siswa.jurusan.jumlah_spp * props.siswa.diskon_spp) / 100 +
+				(props.siswa.jurusan.kategori == '2'
+					? props.siswa.jurusan.diskon_spp > 50
+						? 10000
+						: 0
+					: 0);
 
 			const kelas = el.dataset.kelas;
 			const bulan = el.dataset.bulan;
@@ -89,7 +94,8 @@
 		const totalInsert = input.value;
 		const jumlah_bayar =
 			props.siswa.jurusan.jumlah_spp -
-			(props.siswa.jurusan.jumlah_spp * props.siswa.diskon_spp) / 100;
+			(props.siswa.jurusan.jumlah_spp * props.siswa.diskon_spp) / 100 +
+			(props.siswa.jurusan.kategori == '2' ? (props.siswa.jurusan.diskon_spp > 50 ? 10000 : 0) : 0);
 
 		let noData = [];
 		[...state.kelas].reverse().forEach((kelas) => {

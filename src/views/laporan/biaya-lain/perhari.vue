@@ -7,7 +7,9 @@
 	const state = reactive({
 		filter: {
 			_tanggal: '',
+			_biaya_lain_id: '',
 		},
+		biaya_lain: [],
 		total: 0,
 		data: [],
 		excel_url: '',
@@ -33,19 +35,35 @@
 			.catch((err) => notify(err, 'bg-red-400'));
 	}
 
+	function getBiayaLain() {
+		http
+			.get('/biaya-lain')
+			.then((res) => res.json())
+			.then((res) => (state.biaya_lain = res));
+	}
+
 	watch(state.filter, () => {
 		get();
 	});
 
 	onMounted(() => {
 		state.filter._tanggal = nowDate();
+		getBiayaLain();
 	});
 </script>
 
 <template>
 	<Card title="Laporan Perhari">
-		<div class="form-field">
-			<input type="date" v-model="state.filter._tanggal" />
+		<div class="form-field lg:flex gap-3">
+			<div class="w-full lg:w-1/2">
+				<input type="date" v-model="state.filter._tanggal" />
+			</div>
+			<div class="w-full lg:w-1/2">
+				<select v-model="state.filter._biaya_lain_id">
+					<option value="">Semua Biaya Lain</option>
+					<option v-for="item in state.biaya_lain" :value="item.id">{{ item.jenis }}</option>
+				</select>
+			</div>
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ formatDate(state.filter._tanggal) }}</div>
 		<div class="text-right mb-4 text-sm">

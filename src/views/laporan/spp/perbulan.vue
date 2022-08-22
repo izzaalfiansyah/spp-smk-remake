@@ -50,7 +50,12 @@
 		<div class="form-field mb-3 grid lg:grid-cols-2 grid-cols-1 gap-3">
 			<div>
 				<label for="">Tanggal Awal</label>
-				<input type="date" class="!mb-0" v-model="state.filter._tanggal_awal" />
+				<input
+					type="date"
+					class="!mb-0"
+					:max="state.filter._tanggal_akhir"
+					v-model="state.filter._tanggal_awal"
+				/>
 			</div>
 			<div>
 				<label for="">Tanggal Akhir</label>

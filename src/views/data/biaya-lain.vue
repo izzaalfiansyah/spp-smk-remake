@@ -57,7 +57,6 @@
 	}
 
 	function save() {
-		console.log(state.req);
 		state.isEdit
 			? http
 					.put('/biaya-lain/' + state.req.id, state.req)
@@ -157,27 +156,27 @@
 			</template>
 
 			<template #opsi="{ item }">
-			<div class="inline-block px-1 bg-white rounded">
-				<button
-					@click="
-						state.req = JSON.parse(JSON.stringify(item));
-						state.isEdit = true;
-						state.modal.save = true;
-					"
-					class="material-icons-outlined text-blue-500 !text-xl"
-				>
-					edit
-				</button>
-				<button
-					@click="
-						state.req = JSON.parse(JSON.stringify(item));
-						state.modal.delete = true;
-					"
-					class="material-icons-outlined text-red-500 !text-xl"
-				>
-					delete
-				</button>
-			</div>
+				<div class="inline-block px-1 bg-white rounded">
+					<button
+						@click="
+							state.req = JSON.parse(JSON.stringify(item));
+							state.isEdit = true;
+							state.modal.save = true;
+						"
+						class="material-icons-outlined text-blue-500 !text-xl"
+					>
+						edit
+					</button>
+					<button
+						@click="
+							state.req = JSON.parse(JSON.stringify(item));
+							state.modal.delete = true;
+						"
+						class="material-icons-outlined text-red-500 !text-xl"
+					>
+						delete
+					</button>
+				</div>
 			</template>
 		</Table>
 	</Card>

@@ -52,6 +52,14 @@ const router = createRouter({
 			component: () => import('../views/laporan/tabungan.vue'),
 		},
 		{
+			path: '/laporan/tunggakan',
+			component: () => import('../views/laporan/tunggakan.vue'),
+		},
+		{
+			path: '/laporan/ptk',
+			component: () => import('../views/laporan/ptk.vue'),
+		},
+		{
 			path: '/login',
 			component: () => import('../views/login.vue'),
 		},

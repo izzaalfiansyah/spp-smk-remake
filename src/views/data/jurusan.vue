@@ -18,6 +18,7 @@
 		req: {
 			kode: '',
 			nama: '',
+			kategori: '',
 			jumlah_spp: 0,
 		},
 	});
@@ -25,6 +26,7 @@
 	const rules = {
 		kode: rule.string().required(),
 		nama: rule.string().required(),
+		kategori: rule.string().required(),
 		jumlah_spp: rule.number().required(),
 	};
 
@@ -32,6 +34,7 @@
 		state.req = {
 			kode: '',
 			nama: '',
+			kategori: '',
 			jumlah_spp: 0,
 		};
 	}
@@ -105,7 +108,10 @@
 	</Card>
 	<Card class="mb-4">
 		<div class="grid lg:grid-cols-5 grid-cols-2 gap-3" v-if="state.data.items.length">
-			<div class="border group border-gray-100" v-for="item in state.data.items">
+			<div class="border group border-gray-100 relative" v-for="item in state.data.items">
+				<div class="absolute -top-1 right-1 bg-white shadow rounded-b px-2 text-sm z-3 uppercase">
+					{{ item.kategori == '1' ? 'Bisnis' : 'Teknik' }}
+				</div>
 				<div
 					class="text-2xl transform group-hover:bg-blue-500 bg-gray-50 group-hover:text-white transition text-blue-500 font-semibold text-center py-10"
 				>
@@ -157,6 +163,12 @@
 				<input type="text" placeholder="Masukkkan Kode" v-model="state.req.kode" />
 				<label for="">Nama</label>
 				<input type="text" placeholder="Masukkan Nama" v-model="state.req.nama" />
+				<label for="">Kategori</label>
+				<select v-model="state.req.kategori">
+					<option value="">Pilih Kategori</option>
+					<option value="1">Bisnis</option>
+					<option value="2">Teknik</option>
+				</select>
 				<label for="">Jumlah SPP</label>
 				<input type="number" placeholder="Masukkan Jumlah SPP" v-model="state.req.jumlah_spp" />
 				<label for="">Tabungan Wajib</label>

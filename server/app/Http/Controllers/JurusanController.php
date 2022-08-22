@@ -69,6 +69,7 @@ class JurusanController extends Controller
         return [
             'kode' => ['required', $id ? Rule::unique('jurusan')->ignore($id, 'kode') : Rule::unique('jurusan')],
             'nama' => 'required',
+            'kategori' => 'required|in:1,2',
             'jumlah_spp' => 'required|integer',
         ];
     }

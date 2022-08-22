@@ -188,7 +188,7 @@
 			</template>
 
 			<template #status="{ item }">
-				{{ item.jumlah_bayar > 0 ? '1' : '0' }}
+				{{ item.jumlah_bayar > 0 ? '1' : '2' }}
 			</template>
 
 			<template #kredit="{ item }">

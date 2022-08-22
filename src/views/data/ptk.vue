@@ -25,7 +25,7 @@
 			jabatan: '',
 		},
 		filter: {
-			_limit: 10,
+			_limit: 5,
 			_page: 1,
 			q: '',
 		},
@@ -110,7 +110,8 @@
 </script>
 
 <template>
-	<Card title="Data PTK" class="mb-4">
+	<div class="mb-4 pb-2 border-b text-xl">Data PTK</div>
+	<Card title="List PTK" class="mb-4">
 		<div class="mb-4 p-3 rounded bg-gray-100 form-field">
 			<button
 				type="button"
@@ -124,6 +125,7 @@
 		</div>
 		<div class="form-field">
 			<select v-model="state.filter._limit" class="!mr-3 !w-20">
+				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="20">20</option>
 				<option value="50">50</option>

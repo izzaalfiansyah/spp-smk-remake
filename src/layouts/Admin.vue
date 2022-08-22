@@ -106,18 +106,18 @@
 					icon: 'credit_card',
 					path: '/laporan/tabungan',
 				},
+				{
+					title: 'Laporan Tunggakan',
+					icon: 'sd_card',
+					path: '/laporan/tunggakan',
+				},
+				{
+					title: 'Laporan PTK',
+					icon: 'account_balance',
+					path: '/laporan/ptk',
+				},
 			],
 		},
-		// {
-		// 	section: 'Lain-lain',
-		// 	items: [
-		// 		{
-		// 			title: 'Tabungan PTK',
-		// 			icon: 'account_balance',
-		// 			path: '/lain-lain/tabungan-ptk',
-		// 		},
-		// 	],
-		// },
 	];
 
 	function logout() {
