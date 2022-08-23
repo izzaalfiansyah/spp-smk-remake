@@ -51,6 +51,12 @@ class SiswaController extends Controller
         return response()->json($item);
     }
 
+    public function findByNisn(Request $req)
+    {
+        $item = Model::where(['nisn' => $req->nisn])->first();
+        return response()->json($item);
+    }
+
     public function store(Request $req)
     {
         $schema = Validator::make($req->all(), $this->rules());

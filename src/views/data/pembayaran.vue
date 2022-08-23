@@ -40,7 +40,9 @@
 
 	function getItem() {
 		http
-			.get('/siswa/' + encodeURIComponent(nisn.value))
+			.get('/siswa/find-by-nisn', {
+				nisn: nisn.value,
+			})
 			.then((res) => res.json())
 			.then((res) => {
 				state.siswa.item = res;
