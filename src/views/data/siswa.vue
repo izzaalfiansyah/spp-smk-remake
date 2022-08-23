@@ -85,7 +85,7 @@
 	function save() {
 		state.isEdit
 			? http
-					.put('/siswa/' + state.req.old_nisn, state.req)
+					.put('/siswa/by-nisn', state.req)
 					.then((res) => res.json())
 					.then((res) => {
 						state.modal.save = false;

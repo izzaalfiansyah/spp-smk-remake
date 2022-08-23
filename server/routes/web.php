@@ -22,7 +22,8 @@ Route::middleware(Bearer::class)->group(function () {
   Route::resource('/user', Controller\UserController::class);
   Route::resource('/jurusan', Controller\JurusanController::class);
   Route::post('/siswa/import', [Controller\SiswaController::class, 'import']);
-  Route::get('/siswa/find-by-nisn', [Controller\SiswaController::class, 'findByNisn']);
+  Route::get('/siswa/by-nisn', [Controller\SiswaController::class, 'showByNisn']);
+  Route::put('/siswa/by-nisn', [Controller\SiswaController::class, 'updateByNisn']);
   Route::get('/siswa/{nisn}', [Controller\SiswaController::class, 'show'])->where('nisn', '(.*)');
   Route::resource('/siswa', Controller\SiswaController::class);
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
