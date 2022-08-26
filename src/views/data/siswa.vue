@@ -110,7 +110,7 @@
 
 	function destroy() {
 		http
-			.delete('/siswa/' + state.req.old_nisn)
+			.delete('/siswa/by-nisn?old_nisn=' + state.req.old_nisn)
 			.then((res) => res.json())
 			.then((res) => {
 				state.modal.delete = false;

@@ -57,21 +57,6 @@ class SiswaController extends Controller
         return response()->json($item);
     }
 
-    public function updateByNisn(Request $req)
-    {
-        $schema = Validator::make($req->all(), $this->rules($req->old_nisn));
-
-        if ($schema->fails()) {
-            return response()->json($schema->errors()->all(), 400);
-        }
-
-        $data = $schema->validated();
-        $item = Model::find($req->old_nisn);
-        if ($item) $item->update($data);
-
-        return response()->json($item);
-    }
-
     public function store(Request $req)
     {
         $schema = Validator::make($req->all(), $this->rules());
@@ -101,9 +86,32 @@ class SiswaController extends Controller
         return response()->json($item);
     }
 
+    public function updateByNisn(Request $req)
+    {
+        $schema = Validator::make($req->all(), $this->rules($req->old_nisn));
+
+        if ($schema->fails()) {
+            return response()->json($schema->errors()->all(), 400);
+        }
+
+        $data = $schema->validated();
+        $item = Model::find($req->old_nisn);
+        if ($item) $item->update($data);
+
+        return response()->json($item);
+    }
+
     public function destroy($id)
     {
         $item = Model::find($id);
+        if ($item) $item->delete();
+
+        return response()->json($item);
+    }
+
+    public function destroyByNisn(Request $req)
+    {
+        $item = Model::find($req->old_nisn);
         if ($item) $item->delete();
 
         return response()->json($item);

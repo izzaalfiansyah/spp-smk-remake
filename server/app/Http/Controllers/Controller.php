@@ -29,7 +29,7 @@ class Controller extends BaseController
         return 'Rp ' . number_format($number, 0, ',', '.');
     }
 
-    public function toPrint($contents, $headers = [], $footers = [])
+    public function toPrint($contents, $headers = [], $footers = [], $title = '')
     {
         $header = "";
         foreach ($headers as $item) {
@@ -60,6 +60,7 @@ class Controller extends BaseController
         }
 
         $response = "
+        <span style='font-size: 12px'>$title</span>
         <table border=1 cellpadding=1 cellspacing=0 width=100% style='font-size: 12px !important;'>
             <tr>
                 $header

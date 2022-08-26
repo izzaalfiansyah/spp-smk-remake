@@ -108,9 +108,12 @@ class LaporanSppController extends Controller
 
             foreach ($data as $key => $item) {
                 $jurusan = DB::table('jurusan')->where('kode', $item->jurusan_kode)->first();
-                $siswa = DB::table('siswa')
+                $siswaKeringanan = DB::table('siswa')
                     ->where('diskon_spp', '>', '0')
-                    ->where('jurusan_kode', $item->jurusan_kode)->get();
+                    ->where('jurusan_kode', $item->jurusan_kode)
+                    ->where('kelas', $item->kelas)
+                    ->where('rombel', $item->rombel)
+                    ->get();
 
                 $keringanan = (object) [
                     'jumlah' => 0,
@@ -118,10 +121,10 @@ class LaporanSppController extends Controller
                     'total' => 0,
                 ];
 
-                foreach ($siswa as $s) {
+                foreach ($siswaKeringanan as $s) {
                     $keringanan->jumlah += 1;
-                    $keringanan->uang += ($jurusan->jumlah_spp * ($s->diskon_spp / 100)) - ($jurusan->kategori == '2' ? ($siswa->diskon_spp > 50 ? 10000 : 0) : 0);
-                    $keringanan->total += ($jurusan->jumlah_spp - $keringanan->uang);
+                    $keringanan->uang += ($jurusan->jumlah_spp * ($s->diskon_spp / 100)) - ($jurusan->kategori == '2' ? ($s->diskon_spp > 50 ? 10000 : 0) : 0);
+                    $keringanan->total += $jurusan->jumlah_spp - $keringanan->uang;
                 }
 
                 $data[$key]->keringanan = $keringanan;
@@ -334,7 +337,7 @@ class LaporanSppController extends Controller
             $content[] = $itemContent;
         }
 
-        return $this->toPrint($content, $header);
+        return $this->toPrint($content, $header, [], strtoupper("Laporan Bagan SPP kelas " . str_replace('-', ' ', $req->_kelas_jurusan_rombel)));
     }
 
     public function bagan_excel(Request $req)

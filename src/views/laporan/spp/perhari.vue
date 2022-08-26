@@ -1,12 +1,15 @@
 <script setup>
-	import { onMounted, reactive, watch } from 'vue';
+	import { inject, onMounted, reactive, watch } from 'vue';
 	import Card from '../../../components/Card.vue';
 	import Table from '../../../components/Table.vue';
-	import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
+	import { auth, formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
+
+	const { userAuth } = inject('user-auth');
 
 	const state = reactive({
 		filter: {
 			_tanggal: '',
+			_user_id: auth.id,
 		},
 		total: 0,
 		total_bulan: 0,
@@ -83,7 +86,7 @@
 			</template>
 
 			<template #operator="{ item }">
-				{{ item.operator.nama }}
+				{{ userAuth.nama }}
 			</template>
 		</Table>
 		<div class="p-4 bg-gray-50 rounded mb-4">
