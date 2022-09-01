@@ -4,8 +4,6 @@
 	import Table from '../../../components/Table.vue';
 	import { auth, formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
 
-	const { userAuth } = inject('user-auth');
-
 	const state = reactive({
 		filter: {
 			_tanggal: '',
@@ -86,7 +84,7 @@
 			</template>
 
 			<template #operator="{ item }">
-				{{ userAuth.nama }}
+				{{ item.operator.nama }}
 			</template>
 		</Table>
 		<div class="p-4 bg-gray-50 rounded mb-4">

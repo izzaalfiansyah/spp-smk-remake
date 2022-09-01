@@ -100,7 +100,7 @@ export const nowDate = () => {
 	dates += '-';
 	dates += date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
 	dates += '-';
-	dates += date.getDate < 10 ? '0' + date.getDate() : date.getDate();
+	dates += date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
 
 	return dates;
 };

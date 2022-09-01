@@ -206,9 +206,9 @@
 										:disabled="
 											state.item[kelas + '-' + item]
 												? state.item[kelas + '-' + item].user_id == auth.id
-													? false
+													? true
 													: auth.role == '1'
-													? false
+													? true
 													: true
 												: false
 										"

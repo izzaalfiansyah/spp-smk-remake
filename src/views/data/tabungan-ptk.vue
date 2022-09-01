@@ -7,13 +7,11 @@
 	import Form, { rule } from '../../components/Form.vue';
 	import Pagination from '../../components/Pagination.vue';
 
-	const props = defineProps(['ptk']);
-
 	const state = reactive({
 		isEdit: false,
 		data: {
 			items: [],
-			ptk: props.ptk,
+			ptk: [],
 			totalCount: 0,
 		},
 		modal: {
@@ -104,6 +102,13 @@
 			.catch((err) => notify(err, 'bg-red-400'));
 	}
 
+	function getPtk() {
+		http
+			.get('/ptk')
+			.then((res) => res.json())
+			.then((res) => (state.data.ptk = res));
+	}
+
 	watch(
 		() => JSON.parse(JSON.stringify(state.filter)),
 		(val, old) => {
@@ -114,14 +119,9 @@
 		},
 	);
 
-	watchEffect(() => {
-		if (props.ptk) {
-			state.data.ptk = props.ptk;
-		}
-	});
-
 	onMounted(() => {
 		get();
+		getPtk();
 	});
 </script>
 
@@ -130,12 +130,25 @@
 		<div class="mb-4 p-3 rounded bg-gray-100 form-field">
 			<button
 				type="button"
+				class="mr-2"
 				@click="
 					nullable();
+					state.req.status = '1';
 					state.modal.save = true;
 				"
 			>
 				+ Tambah
+			</button>
+			<button
+				type="button"
+				class="!bg-red-500"
+				@click="
+					nullable();
+					state.req.status = '2';
+					state.modal.save = true;
+				"
+			>
+				- Ambil
 			</button>
 		</div>
 		<div class="form-field">
@@ -157,7 +170,7 @@
 			:keys="{
 				No: 'no',
 				PTK: 'ptk',
-				Status: 'status',
+				Id: 'status',
 				Nominal: 'nominal',
 				Operator: 'operator',
 				Opsi: 'opsi',
@@ -169,7 +182,7 @@
 			<template #ptk="{ item }">{{ item.ptk.kode }} - {{ item.ptk.nama }}</template>
 
 			<template #status="{ item }">
-				{{ item.nominal > 0 ? 'Menabung' : 'Mengambil' }}
+				{{ item.nominal > 0 ? '1' : '2' }}
 			</template>
 
 			<template #operator="{ item }">{{ item.user.nama }}</template>
@@ -225,17 +238,13 @@
 						{{ item.kode }} - {{ item.nama }}
 					</option>
 				</select>
-				<label for="">Status</label>
-				<select v-model="state.req.status">
-					<option disabled value="">Pilih Status</option>
-					<option value="1">Menabung</option>
-					<option value="2">Mengambil</option>
-				</select>
 				<label for="">Nominal</label>
 				<input type="number" v-model="state.req.nominal" placeholder="Masukkan Nominal" />
 
 				<div class="mt-5 text-right">
-					<button type="submit">Simpan</button>
+					<button :class="{ '!bg-red-500': state.req.status == '2' }" type="submit">
+						{{ state.req.status == '1' ? 'Simpan' : 'Ambil' }}
+					</button>
 				</div>
 			</Form>
 		</Card>

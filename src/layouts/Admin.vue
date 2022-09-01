@@ -72,6 +72,11 @@
 					  ]
 					: [
 							{
+								title: 'Data Siswa',
+								icon: 'supervisor_account',
+								path: '/data/siswa',
+							},
+							{
 								title: 'Data Biaya Lain',
 								icon: 'account_balance',
 								path: '/data/biaya-lain',

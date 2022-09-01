@@ -21,6 +21,10 @@ class LaporanBiayaLainController extends Controller
                 $builder = $builder->where('biaya_lain.id', $biaya_lain_id);
             }
 
+            if ($user_id = $req->_user_id) {
+                $builder = $builder->where('user_id', $user_id);
+            }
+
             $data = $builder->get();
 
             foreach ($data as $key => $item) {

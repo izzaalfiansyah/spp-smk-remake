@@ -22,6 +22,10 @@ class LaporanSppController extends Controller
             $builder = $builder->groupBy('siswa_nisn');
             $builder = $builder->whereDate('created_at', $tanggal);
 
+            if ($user_id = $req->_user_id) {
+                $builder = $builder->where('user_id', $user_id);
+            }
+
             $data = $builder->get();
 
             foreach ($data as $key => $item) {
@@ -103,6 +107,11 @@ class LaporanSppController extends Controller
             $builder = $builder->groupBy('siswa.rombel');
             $builder = $builder->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal);
             $builder = $builder->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir);
+
+
+            if ($user_id = $req->_user_id) {
+                $builder = $builder->where('user_id', $user_id);
+            }
 
             $data = $builder->get();
 

@@ -175,7 +175,7 @@
 		</div>
 	</Card>
 
-	<TabunganPtk :ptk="state.data.items"></TabunganPtk>
+	<TabunganPtk></TabunganPtk>
 
 	<Modal v-model="state.modal.save">
 		<Card :title="state.isEdit ? 'Edit PTK' : 'Tambah PTK'" class="!max-w-full !w-550px">
