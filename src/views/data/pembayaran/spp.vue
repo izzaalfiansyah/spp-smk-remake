@@ -204,13 +204,7 @@
 										:data-kelas="kelas"
 										:data-bulan="item"
 										:disabled="
-											state.item[kelas + '-' + item]
-												? state.item[kelas + '-' + item].user_id == auth.id
-													? true
-													: auth.role == '1'
-													? true
-													: true
-												: false
+											state.item[kelas + '-' + item] ? (auth.role == '1' ? false : true) : false
 										"
 									/>
 								</td>

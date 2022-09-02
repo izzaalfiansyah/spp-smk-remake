@@ -131,9 +131,11 @@ class LaporanSppController extends Controller
                 ];
 
                 foreach ($siswaKeringanan as $s) {
+                    $uangKeringanan = (($jurusan->jumlah_spp * $s->diskon_spp / 100) - ($jurusan->kategori == '2' ? ($s->diskon_spp > 50 ? 10000 : 0) : 0));
+
+                    $keringanan->uang += $uangKeringanan;
+                    $keringanan->total += $jurusan->jumlah_spp - $uangKeringanan;
                     $keringanan->jumlah += 1;
-                    $keringanan->uang += ($jurusan->jumlah_spp * ($s->diskon_spp / 100)) - ($jurusan->kategori == '2' ? ($s->diskon_spp > 50 ? 10000 : 0) : 0);
-                    $keringanan->total += $jurusan->jumlah_spp - $keringanan->uang;
                 }
 
                 $data[$key]->keringanan = $keringanan;

@@ -1,5 +1,5 @@
 <script setup>
-	import { onMounted, reactive, watch, watchEffect } from 'vue';
+	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../components/Card.vue';
 	import Table from '../../components/Table.vue';
 	import { auth, formatMoney, http, notify } from '../../lib';
@@ -112,9 +112,10 @@
 	watch(
 		() => JSON.parse(JSON.stringify(state.filter)),
 		(val, old) => {
-			if (val.page !== old.page) {
+			if (val._page == old._page) {
 				state.filter._page = 1;
 			}
+
 			get();
 		},
 	);
@@ -193,7 +194,7 @@
 
 			<template #opsi="{ item }">
 				<div class="bg-white rounded inline-block px-1">
-					<button
+					<!-- <button
 						@click="
 							state.req = JSON.parse(JSON.stringify(item));
 							state.req.status = item.nominal > 0 ? '1' : '2';
@@ -203,7 +204,7 @@
 						class="material-icons-outlined text-blue-500 !text-xl"
 					>
 						edit
-					</button>
+					</button> -->
 					<button
 						@click="
 							state.req = JSON.parse(JSON.stringify(item));
