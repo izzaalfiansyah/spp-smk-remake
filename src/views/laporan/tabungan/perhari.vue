@@ -2,11 +2,12 @@
 	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../../components/Card.vue';
 	import Table from '../../../components/Table.vue';
-	import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
+	import { auth, formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
 
 	const state = reactive({
 		filter: {
 			_tanggal: '',
+			_user_id: auth.id,
 		},
 		total: 0,
 		data: [],
