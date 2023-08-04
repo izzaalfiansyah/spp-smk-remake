@@ -40,7 +40,7 @@
 </script>
 
 <template>
-	<div class="min-h-screen bg-blue-500 flex">
+	<div class="min-h-screen bg-[#006cea] flex">
 		<div class="lg:w-1/2 min-h-screen w-full lg:flex items-center justify-center hidden animate-down">
 			<img
 				src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?w=2000"
@@ -52,7 +52,7 @@
 			class="lg:w-1/2 lg:bg-white min-h-screen w-full flex lg:items-center items-end justify-center animate-up"
 		>
 			<div class="bg-white rounded p-8 lg:py-8 py-16 rounded-t-3xl w-full max-w-500px">
-				<div class="text-xl mb-6 border-b pb-3">Login</div>
+				<div class="text-xl mb-6 border-b pb-3 font-semibold">Login</div>
 				<Form @submit="login" class="form-field" :values="state.req" :rules="rules">
 					<label for="">Username</label>
 					<input type="text" placeholder="Masukkan Username" v-model="state.req.username" />

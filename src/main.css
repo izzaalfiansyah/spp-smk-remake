@@ -1,65 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 * {
-	font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	scroll-behavior: smooth;
+  font-family: "Inter", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+  scroll-behavior: smooth;
 }
 
-.form-field [type='text'],
-.form-field [type='email'],
-.form-field [type='url'],
-.form-field [type='password'],
-.form-field [type='number'],
-.form-field [type='date'],
-.form-field [type='datetime-local'],
-.form-field [type='month'],
-.form-field [type='search'],
-.form-field [type='tel'],
-.form-field [type='time'],
-.form-field [type='week'],
+.form-field [type="text"],
+.form-field [type="email"],
+.form-field [type="url"],
+.form-field [type="password"],
+.form-field [type="number"],
+.form-field [type="date"],
+.form-field [type="datetime-local"],
+.form-field [type="month"],
+.form-field [type="search"],
+.form-field [type="tel"],
+.form-field [type="time"],
+.form-field [type="week"],
 .form-field [multiple],
 .form-field textarea,
 .form-field select {
-	@apply w-full rounded outline-none border-gray-200 focus:ring-2 focus:border-blue-400 focus:ring-indigo-200 transition mb-3 p-2 invalid:focus:border-red-500 invalid:focus:ring-red-200 resize-none bg-white shadow-sm disabled:bg-gray-50;
+  @apply w-full rounded outline-none border-gray-200 focus:ring-2 focus:border-blue-400 focus:ring-indigo-100 transition mb-3 p-2 invalid:focus:border-red-500 invalid:focus:ring-red-200 resize-none bg-white disabled:bg-gray-50 transition;
 }
 
-.form-field [type='checkbox'],
-.form-field [type='radio'] {
-	@apply border-gray-200 mr-1 transition focus:ring-indigo-400 shadow-sm cursor-pointer disabled:bg-gray-500 disabled:cursor-default;
+.form-field [type="checkbox"],
+.form-field [type="radio"] {
+  @apply border-gray-200 mr-1 transition focus:ring-indigo-400 shadow-sm cursor-pointer disabled:bg-gray-500 disabled:cursor-default;
 }
 
-.form-field [type='checkbox'] {
-	@apply rounded;
+.form-field [type="checkbox"] {
+  @apply rounded;
 }
 
 .form-field label {
-	@apply mb-2;
+  @apply mb-2;
 }
 
 .form-field .hint {
-	@apply -mt-3 text-sm;
+  @apply -mt-3 text-sm;
 }
 
 .form-field button {
-	@apply px-5 py-2 bg-blue-500 text-white shadow-sm rounded uppercase text-sm shadow outline-none transition !active:bg-opacity-75;
+  @apply px-5 py-2 bg-blue-500 text-white shadow-sm rounded uppercase text-sm shadow outline-none transition !active:bg-opacity-75;
 }
 
 ::-webkit-scrollbar {
-	@apply w-1.5 h-1.5;
+  @apply w-1.5 h-1.5;
 }
 
 ::-webkit-scrollbar-track {
-	@apply bg-transparent;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-	@apply bg-gray-200 hover:bg-gray-300 transition rounded-full ;
+  @apply bg-gray-200 hover:bg-gray-300 transition rounded-full;
 }
 
 .animate-up {
-	animation: .3s animate-up;
+  animation: 0.3s animate-up;
 }
 
 @keyframes animate-up {
-	from {
-		transform: translateY(150%);
-	}
+  from {
+    transform: translateY(150%);
+  }
 }
