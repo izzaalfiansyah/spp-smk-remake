@@ -62,7 +62,7 @@
 					user_id: auth.id,
 					bulan: bulan,
 					jumlah_bayar: jumlah_bayar,
-					tabungan_wajib: 15000,
+					tabungan_wajib: props.siswa.jurusan.tabungan_wajib,
 					status_kelas: kelas,
 				})
 				.then((res) => res.json())
@@ -108,7 +108,7 @@
 							user_id: auth.id,
 							bulan: bulan,
 							jumlah_bayar: jumlah_bayar,
-							tabungan_wajib: 15000,
+							tabungan_wajib: props.siswa.jurusan.tabungan_wajib,
 							status_kelas: kelas,
 						},
 					];
