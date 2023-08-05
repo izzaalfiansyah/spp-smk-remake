@@ -20,6 +20,7 @@
 			nama: '',
 			kategori: '',
 			jumlah_spp: 0,
+			tabungan_wajib: 0,
 		},
 	});
 
@@ -36,6 +37,7 @@
 			nama: '',
 			kategori: '',
 			jumlah_spp: 0,
+			tabungan_wajib: 0,
 		};
 	}
 
@@ -127,7 +129,7 @@
 				</div>
 				<div class="p-2 text-center">
 					<div class="border-b mb-2 pb-1 text-xs font-semibold">
-						SPP: {{ formatMoney(item.jumlah_spp) }}
+						SPP: {{ formatMoney(parseInt(item.jumlah_spp) + parseInt(item.tabungan_wajib)) }}
 					</div>
 					<button
 						@click="
@@ -172,7 +174,7 @@
 				<label for="">Jumlah SPP</label>
 				<input type="number" placeholder="Masukkan Jumlah SPP" v-model="state.req.jumlah_spp" />
 				<label for="">Tabungan Wajib</label>
-				<input type="number" disabled placeholder="Tabungan Wajib" value="15000" />
+				<input type="number" placeholder="Tabungan Wajib" v-model="state.req.tabungan_wajib" />
 
 				<div class="text-right mt-5">
 					<button>Simpan</button>
