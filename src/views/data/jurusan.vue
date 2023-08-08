@@ -1,5 +1,5 @@
 <script setup>
-	import { onMounted, reactive } from 'vue';
+	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../components/Card.vue';
 	import { rule } from '../../components/Form.vue';
 	import Modal from '../../components/Modal.vue';
@@ -88,6 +88,17 @@
 			.catch((err) => notify(err, 'bg-red-400'));
 	}
 
+	function handleChangeCategory() {
+		state.req.jumlah_spp = 110000;
+		state.req.tabungan_wajib = 20000;
+
+		if (state.req.kategori == '1') {
+			state.req.uang_praktik = 0;
+		} else if (state.req.kategori == '2') {
+			state.req.uang_praktik = 10000;
+		}
+	}
+
 	onMounted(() => {
 		get();
 	});
@@ -168,8 +179,8 @@
 				<label for="">Nama</label>
 				<input type="text" placeholder="Masukkan Nama" v-model="state.req.nama" />
 				<label for="">Kategori</label>
-				<select v-model="state.req.kategori">
-					<option value="">Pilih Kategori</option>
+				<select v-model="state.req.kategori" v-on:change="handleChangeCategory">
+					<option disabled value="">Pilih Kategori</option>
 					<option value="1">Bisnis</option>
 					<option value="2">Teknik</option>
 				</select>
