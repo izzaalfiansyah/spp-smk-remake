@@ -2,6 +2,7 @@
 	import { onMounted, reactive } from 'vue';
 	import Card from '../components/Card.vue';
 	import { http, notify } from '../lib';
+	import logo from "../images/smk.png";
 
 	const state = reactive({
 		total: {
@@ -50,7 +51,7 @@
 		<Card>
 			<div class="text-center p-6">
 				<img
-					src="http://smkpgri13sby.sch.id/wp-content/uploads/2017/09/xcropped-PGRI-1.png.pagespeed.ic_.f-537LOiGG.png"
+					:src="logo"
 					alt=""
 					class="inline lg:w-300px lg:h-300px w-200px h-200px"
 				/>
