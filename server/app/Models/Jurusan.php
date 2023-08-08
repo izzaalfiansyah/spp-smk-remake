@@ -24,6 +24,7 @@ class Jurusan extends Model
         'nama',
         'kategori',
         'jumlah_spp',
+        'uang_praktik',
         'tabungan_wajib',
     ];
 

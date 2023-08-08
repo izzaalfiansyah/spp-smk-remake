@@ -63,11 +63,12 @@
 					bulan: bulan,
 					jumlah_bayar: jumlah_bayar,
 					tabungan_wajib: props.siswa.jurusan.tabungan_wajib,
+					uang_praktik: props.siswa.jurusan.uang_praktik,
 					status_kelas: kelas,
 				})
 				.then((res) => res.json())
 				.then((res) => {
-					notify('pembayaran berhasil disimpan');
+					// notify('pembayaran berhasil disimpan');
 					get();
 				})
 				.catch((err) => {
@@ -80,7 +81,7 @@
 				.delete('/pembayaran/spp/' + id)
 				.then((res) => res.json())
 				.then(() => {
-					notify('pembayaran berhasil dihapus');
+					// notify('pembayaran berhasil dihapus');
 					get();
 				})
 				.catch((err) => notify(err, 'bg-red-400'));
@@ -123,7 +124,7 @@
 			.then((res) => res.json())
 			.then((res) => {
 				input.value = '';
-				notify(res);
+				// notify(res);
 				get();
 			})
 			.catch((err) => notify(err))
@@ -166,10 +167,12 @@
 						:max="state.totalKekurangan"
 						min="1"
 						required
+						:disabled="state.totalKekurangan <= 0"
 					/>
 					<button
 						type="submit"
-						class="absolute top-0 bottom-0 right-0 rounded-full p-3 bg-blue-500 px-5 shadow-sm text-white"
+						class="absolute top-0 bottom-0 right-0 rounded-full p-3 bg-blue-500 px-5 shadow-sm text-white disabled:bg-gray-400"
+						:disabled="state.totalKekurangan <= 0"
 					>
 						Bayar
 					</button>

@@ -138,39 +138,22 @@
 </script>
 
 <template>
-	<div class="min-h-screen bg-gray-50">
-		<div
-			class="h-16 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow sticky rounded-b-xl top-0 flex items-center z-20 justify-between p-4"
-		>
-			<div class="text-xl">BANK MINI SEMARAK</div>
-			<div class="text-right">
-				<a
-					@click="state.sidebarOpen = !state.sidebarOpen"
-					class="material-icons !text-xl inline-block cursor-pointer !lg:hidden"
-					>menu</a
-				>
-				<a
-					@click="state.modalLogout = true"
-					class="material-icons !text-xl inline-block cursor-pointer ml-3"
-					>logout</a
-				>
-			</div>
-		</div>
-		<div class="p-4 flex w-full">
-			<div class="lg:w-350px lg:pr-4">
+	<div class="min-h-screen bg-[#f8f8f8]">
+		<div class="flex w-full">
+			<div>
 				<div
 					v-show="state.sidebarOpen"
 					@click="state.sidebarOpen = !state.sidebarOpen"
 					class="bg-black z-10 fixed top-0 left-0 right-0 bottom-0 bg-opacity-25 lg:hidden"
 				></div>
 				<div
-					:class="`bg-white lg:rounded rounded-t-3xl z-20 fixed lg:sticky lg:top-20 bottom-0 left-0 right-0 w-full p-4 shadow h-85vh transition duration-500 overflow-y-auto transform lg:translate-y-0 translate-y-full ${
+					:class="`bg-[#202b46] text-gray-400 lg:rounded-none rounded-t-3xl z-20 fixed lg:sticky lg:top-0 lg:h-screen h-[85vh] bottom-0 left-0 right-0 w-full p-4 lg:w-80 shadow transition duration-500 overflow-y-auto transform lg:translate-y-0 translate-y-full ${
 						state.sidebarOpen ? '!translate-y-0' : ''
 					}`"
 				>
 					<template v-for="item in sidebarItems">
 						<div
-							class="uppercase text-xs text-center my-2 lg:text-left font-semibold pl-2 rounded p-1 bg-blue-500 text-white shadow-sm"
+							class="uppercase text-xs text-center my-2 lg:text-left font-semibold pl-2 rounded p-1 text-white shadow-sm text-gray-500"
 						>
 							{{ item.section }}
 						</div>
@@ -178,7 +161,7 @@
 						<template v-for="link in item.items">
 							<button
 								v-if="link.event"
-								class="flex w-full p-2 py-1.5 hover:bg-gray-50 items-center transition rounded hover:shadow block mb-1.5"
+								class="flex w-full p-2 py-1.5 hover:bg-gray-700 items-center transition rounded hover:shadow block mb-1.5"
 								@click="link.event"
 							>
 								<div class="mr-3 text-center">
@@ -188,8 +171,8 @@
 							</button>
 							<RouterLink
 								v-else
-								class="flex p-2 py-1.5 hover:bg-gray-50 items-center transition rounded hover:shadow block mb-1.5"
-								:class="{ 'bg-gray-50 shadow': $route.path == link.path }"
+								class="flex p-2 py-1.5 hover:bg-gray-700 items-center transition rounded hover:shadow block mb-1.5"
+								:class="{ '!bg-blue-500 !text-white shadow': $route.path == link.path }"
 								@click="state.sidebarOpen = !state.sidebarOpen"
 								:to="link.path"
 							>
@@ -202,8 +185,27 @@
 					</template>
 				</div>
 			</div>
-			<div class="lg:w-[calc(100%-350px)] w-full custom-main-admin">
-				<RouterView></RouterView>
+			<div class="lg:grow w-full custom-main-admin">
+				<div
+					class="h-18 bg-gradient-to-r bg-white text-gray-700 shadow top-0 flex items-center z-20 justify-between p-4"
+				>
+					<div class="text-xl">BANK MINI SEMARAK</div>
+						<div class="text-right">
+							<a
+								@click="state.sidebarOpen = !state.sidebarOpen"
+								class="material-icons !text-xl inline-block cursor-pointer !lg:hidden"
+								>menu</a
+							>
+							<a
+								@click="state.modalLogout = true"
+								class="material-icons !text-xl inline-block cursor-pointer ml-3"
+								>logout</a
+							>
+						</div>
+					</div>
+					<div class="lg:p-5 p-3 py-5">
+						<RouterView></RouterView>
+					</div>
 			</div>
 		</div>
 	</div>

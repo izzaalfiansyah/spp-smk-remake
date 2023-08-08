@@ -112,6 +112,7 @@ class PembayaranSppController extends Controller
             'bulan' => 'required',
             'jumlah_bayar' => 'required|integer',
             'tabungan_wajib' => 'required|integer',
+            'uang_praktik' => 'required|integer',
             'status_kelas' => 'required|in:X,XI,XII',
         ];
     }

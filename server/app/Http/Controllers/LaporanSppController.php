@@ -18,6 +18,7 @@ class LaporanSppController extends Controller
                 DB::raw('count(id) as total_bulan'),
                 DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
                 DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
+                DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
             );
             $builder = $builder->groupBy('siswa_nisn');
             $builder = $builder->whereDate('created_at', $tanggal);
@@ -55,7 +56,7 @@ class LaporanSppController extends Controller
                 $item->siswa->nama,
                 $item->siswa->kelas . ' ' . $item->siswa->jurusan_kode . ' ' . $item->siswa->rombel,
                 $item->total_bulan,
-                $this->formatMoney($item->total_bayar + $item->total_tabungan),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
             $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
             $total += $item->total_bayar + $item->total_tabungan;
@@ -78,7 +79,7 @@ class LaporanSppController extends Controller
                 $item->siswa->nama,
                 $item->siswa->kelas . ' ' . $item->siswa->jurusan_kode . ' ' . $item->siswa->rombel,
                 $item->total_bulan,
-                $this->formatMoney($item->total_bayar + $item->total_tabungan),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
             $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
             $total += $item->total_bayar + $item->total_tabungan;
@@ -100,6 +101,7 @@ class LaporanSppController extends Controller
                 'siswa.rombel as rombel',
                 DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
                 DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
+                DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
             );
             $builder = $builder->leftJoin('siswa', 'siswa.nisn', '=', 'pembayaran_spp.siswa_nisn');
             $builder = $builder->groupBy('siswa.kelas');
@@ -162,9 +164,9 @@ class LaporanSppController extends Controller
                 $item->keringanan->jumlah . ' Transaksi',
                 $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
-                $this->formatMoney($item->total_bayar + $item->total_tabungan),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
-            $total += $item->total_bayar + $item->total_tabungan;
+            $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
         return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)]);
@@ -185,9 +187,9 @@ class LaporanSppController extends Controller
                 $item->keringanan->jumlah . ' Transaksi',
                 $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
-                $this->formatMoney($item->total_bayar + $item->total_tabungan),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
-            $total += $item->total_bayar + $item->total_tabungan;
+            $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
         return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . date('Y-M'));
@@ -218,6 +220,7 @@ class LaporanSppController extends Controller
                         DB::raw('count(id) as jumlah_pembayaran'),
                         DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
                         DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
+                        DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
                     )
                     ->where('siswa_nisn', $item->nisn)
                     ->where('status_kelas', $kelas)
@@ -245,10 +248,10 @@ class LaporanSppController extends Controller
                 $item->nisn,
                 $item->nama,
                 $item->spp->jumlah_pembayaran,
-                $this->formatMoney($item->spp->total_bayar + $item->spp->total_tabungan),
+                $this->formatMoney($item->spp->total_bayar + $item->spp->total_tabungan + $item->spp->total_uang_praktik),
             ];
             $total_jumlah += $item->spp->jumlah_pembayaran;
-            $total += $item->spp->total_bayar + $item->spp->total_tabungan;
+            $total += $item->spp->total_bayar + $item->spp->total_tabungan + $item->spp->total_uang_praktik;
         }
 
         return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'TERBAYAR', 'TOTAL'], ['', '', 'TOTAL', $total_jumlah, $this->formatMoney($total)]);
@@ -268,10 +271,10 @@ class LaporanSppController extends Controller
                 "'{$item->nisn}'",
                 $item->nama,
                 $item->spp->jumlah_pembayaran,
-                $this->formatMoney($item->spp->total_bayar + $item->spp->total_tabungan),
+                $this->formatMoney($item->spp->total_bayar + $item->spp->total_tabungan + $item->spp->total_uang_praktik),
             ];
             $total_jumlah += $item->spp->jumlah_pembayaran;
-            $total += $item->spp->total_bayar + $item->spp->total_tabungan;
+            $total += $item->spp->total_bayar + $item->spp->total_tabungan + $item->spp->total_uang_praktik;
         }
 
         return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'TERBAYAR', 'TOTAL'], ['', '', 'TOTAL', $total_jumlah, $this->formatMoney($total)], 'laporan-spp-' . $req->_kelas_jurusan_rombel);

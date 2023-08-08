@@ -103,7 +103,7 @@
 			</template>
 
 			<template #total_bayar="{ item }">
-				{{ formatMoney(item.total_bayar + item.total_tabungan) }}
+				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik) }}
 			</template>
 		</Table>
 		<div class="p-4 bg-gray-50 rounded mb-4">Total: {{ formatMoney(state.total) }}</div>

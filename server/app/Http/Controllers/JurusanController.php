@@ -71,6 +71,7 @@ class JurusanController extends Controller
             'nama' => 'required',
             'kategori' => 'required|in:1,2',
             'jumlah_spp' => 'required|integer',
+            'uang_praktik' => 'required|integer',
             'tabungan_wajib' => 'required|integer',
         ];
     }

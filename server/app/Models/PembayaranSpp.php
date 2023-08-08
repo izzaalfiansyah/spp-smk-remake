@@ -17,12 +17,14 @@ class PembayaranSpp extends Model
         'bulan',
         'jumlah_bayar',
         'tabungan_wajib',
+        'uang_praktik',
         'status_kelas'
     ];
 
     public $casts = [
         'jumlah_bayar' => 'int',
         'tabungan_wajib' => 'int',
+        'uang_praktik' => 'int',
     ];
 
     public $with = [

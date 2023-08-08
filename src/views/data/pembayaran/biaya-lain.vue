@@ -294,7 +294,7 @@
 								/>
 							</div>
 						</div>
-						<div class="rounded-b text-center py-1 px-4 text-blue-500">
+						<div class="rounded-b text-center py-1 px-4 text-blue-500" :hidden="state.req.max_jumlah_bayar <= 0">
 							<button type="submit">+ TAMBAH</button>
 						</div>
 					</form>

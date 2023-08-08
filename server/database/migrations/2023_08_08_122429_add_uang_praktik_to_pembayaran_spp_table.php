@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('jurusan', function (Blueprint $table) {
+        Schema::table('pembayaran_spp', function (Blueprint $table) {
             $table->integer('uang_praktik')->default(0);
-            $table->integer('tabungan_wajib')->default(20000);
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('jurusan', function (Blueprint $table) {
+        Schema::table('pembayaran_spp', function (Blueprint $table) {
             $table->dropColumn('uang_praktik');
-            $table->dropColumn('tabungan_wajib');
         });
     }
 };
