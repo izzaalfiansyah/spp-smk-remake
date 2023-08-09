@@ -54,12 +54,12 @@
 					type="date"
 					class="!mb-0"
 					:max="state.filter._tanggal_akhir"
-					v-model="state.filter._tanggal_awal"
+					v-model.lazy="state.filter._tanggal_awal"
 				/>
 			</div>
 			<div>
 				<label for="">Tanggal Akhir</label>
-				<input type="date" class="!mb-0" v-model="state.filter._tanggal_akhir" />
+				<input type="date" class="!mb-0" v-model.lazy="state.filter._tanggal_akhir" />
 			</div>
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">

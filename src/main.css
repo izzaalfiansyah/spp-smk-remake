@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 * {
-  font-family: "Poppins", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+  font-family: "Inter", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
   scroll-behavior: smooth;
 }

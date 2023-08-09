@@ -2,6 +2,7 @@
 	import { reactive } from 'vue';
 	import Form, { rule } from '../components/Form.vue';
 	import { http, notify } from '../lib';
+	import logo from "../images/smk.png";
 
 	const state = reactive({
 		req: {
@@ -40,18 +41,14 @@
 </script>
 
 <template>
-	<div class="min-h-screen bg-[#006cea] flex">
-		<div class="lg:w-1/2 min-h-screen w-full lg:flex items-center justify-center hidden animate-down">
-			<img
-				src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?w=2000"
-				alt=""
-				class="rounded w-500px block ripple"
-			/>
-		</div>
-		<div
-			class="lg:w-1/2 lg:bg-white min-h-screen w-full flex lg:items-center items-end justify-center animate-up"
-		>
-			<div class="bg-white rounded p-8 lg:py-8 py-16 rounded-t-3xl w-full max-w-500px">
+	<div class="min-h-screen bg-gradient-to-b from-[#202b46] to-gray-800 flex items-center justify-center p-5">
+		<!-- <div class="absolute bottom-0 left-0 right-0 h-[50vh] bg-gray-100">
+		</div> -->
+		<div class="rounded-xl relative shadow-lg flex justify-between w-full lg:w-3/4 overflow-hidden">
+			<div class="grow lg:flex hidden w-full bg-black bg-opacity-25 items-center justify-center" style="backdrop-filter: blur(8px);">
+				<img :src="logo" alt="Logo SMK" class="w-[200px]">
+			</div>
+			<div class="grow p-10 lg:py-20 bg-white">
 				<div class="text-xl mb-6 border-b pb-3 font-semibold">Login</div>
 				<Form @submit="login" class="form-field" :values="state.req" :rules="rules">
 					<label for="">Username</label>
@@ -63,7 +60,7 @@
 						v-model="state.req.password"
 					/>
 					<input type="checkbox" v-model="state.showPassword" /> Lihat Password
-
+		
 					<div class="mt-8">
 						<button type="submit" class="w-full ripple">Login</button>
 					</div>

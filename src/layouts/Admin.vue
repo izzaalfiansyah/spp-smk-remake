@@ -185,7 +185,7 @@
 					</template>
 				</div>
 			</div>
-			<div class="lg:grow w-full custom-main-admin">
+			<div class="w-screen lg:pl-80 lg:-ml-80 custom-main-admin">
 				<div
 					class="h-18 bg-white text-gray-700 shadow sticky top-0 flex items-center z-20 justify-between p-4"
 				>

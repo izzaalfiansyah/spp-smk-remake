@@ -26,7 +26,7 @@
 			})
 			.then((res) => {
 				state.total = 0;
-				state.data = res;
+				state.data = res.reverse();
 
 				res.forEach((item) => {
 					state.total_bulan += parseInt(item.total_bulan.replace(' Bulan'));
@@ -48,7 +48,7 @@
 <template>
 	<Card title="Laporan Perhari">
 		<div class="form-field">
-			<input type="date" v-model="state.filter._tanggal" />
+			<input type="date" v-model.lazy="state.filter._tanggal" />
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ formatDate(state.filter._tanggal) }}</div>
 		<div class="text-right mb-4 text-sm">
