@@ -29,7 +29,7 @@
 				state.data = res;
 
 				res.forEach((item) => {
-					state.total += item.spp.total_bayar + item.spp.total_tabungan;
+					state.total += item.spp.total_bayar + item.spp.total_tabungan + item.spp.total_uang_praktik;;
 				});
 			})
 			.catch((err) => notify(err, 'bg-red-400'));

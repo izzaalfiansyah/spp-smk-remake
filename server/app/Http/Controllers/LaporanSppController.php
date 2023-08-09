@@ -115,6 +115,12 @@ class LaporanSppController extends Controller
                 $builder = $builder->where('user_id', $user_id);
             }
 
+            $pembayaranSpp = DB::table('pembayaran_spp')->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal)->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir)->get();
+
+            foreach ($pembayaranSpp as $key => $item) {
+                $siswaNisns[] = $item->siswa_nisn;
+            }
+
             $data = $builder->get();
 
             foreach ($data as $key => $item) {
@@ -124,6 +130,7 @@ class LaporanSppController extends Controller
                     ->where('jurusan_kode', $item->jurusan_kode)
                     ->where('kelas', $item->kelas)
                     ->where('rombel', $item->rombel)
+                    ->whereIn('nisn', $siswaNisns)
                     ->get();
 
                 $keringanan = (object) [

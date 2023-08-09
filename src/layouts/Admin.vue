@@ -187,7 +187,7 @@
 			</div>
 			<div class="lg:grow w-full custom-main-admin">
 				<div
-					class="h-18 bg-gradient-to-r bg-white text-gray-700 shadow top-0 flex items-center z-20 justify-between p-4"
+					class="h-18 bg-white text-gray-700 shadow sticky top-0 flex items-center z-20 justify-between p-4"
 				>
 					<div class="text-xl">BANK MINI SEMARAK</div>
 						<div class="text-right">
