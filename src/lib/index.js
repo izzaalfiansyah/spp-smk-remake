@@ -7,7 +7,10 @@ const loadingStart = () => {
   const loadTop = document.querySelector("#top-loading");
   document.body.style.pointerEvents = "none";
   loadTop.style.opacity = 1;
-  loadTop.style.width = "25%";
+
+  if (loadTop.style.width == "0%") {
+    loadTop.style.width = "25%";
+  }
 };
 
 const loadingFinish = async () => {
@@ -51,6 +54,7 @@ export const http = {
       body: JSON.stringify(params),
     });
     await f;
+    loadingFinish();
     return f;
   },
   put: async (url, params) => {
@@ -61,6 +65,7 @@ export const http = {
       body: JSON.stringify(params),
     });
     await f;
+    loadingFinish();
     return f;
   },
   delete: async (url) => {
@@ -70,6 +75,7 @@ export const http = {
       headers: apiHeader,
     });
     await f;
+    loadingFinish();
     return f;
   },
 };
