@@ -110,6 +110,7 @@
 							bulan: bulan,
 							jumlah_bayar: jumlah_bayar,
 							tabungan_wajib: props.siswa.jurusan.tabungan_wajib,
+							uang_praktik: props.siswa.jurusan.uang_praktik,
 							status_kelas: kelas,
 						},
 					];
