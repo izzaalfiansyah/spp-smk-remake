@@ -26,7 +26,7 @@
 			})
 			.then((res) => {
 				state.total = 0;
-				state.data = res.reverse();
+				state.data = res;
 
 				res.forEach((item) => {
 					state.total_bulan += parseInt(item.total_bulan.replace(' Bulan'));
