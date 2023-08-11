@@ -14,6 +14,7 @@
 		data: [],
 		excel_url: '',
 		print_url: '',
+		user: [],
 	});
 
 	function get() {
@@ -33,7 +34,14 @@
 					state.total += item.total_bayar + item.total_tabungan + item.total_uang_praktik;
 				});
 			})
-			.catch((err) => notify(err, 'bg-red-400'));
+			.catch((err) =>
+			 notify(err, 'bg-red-400'));
+	}
+
+	function getUser() {
+		http.get('/user').then((res) => res.json()).then((res) => {
+			state.user = res;
+		});
 	}
 
 	watch(state.filter, () => {
@@ -41,14 +49,23 @@
 	});
 
 	onMounted(() => {
+		getUser();
 		state.filter._tanggal = nowDate();
 	});
 </script>
 
 <template>
 	<Card title="Laporan Perhari">
-		<div class="form-field">
-			<input type="date" v-model.lazy="state.filter._tanggal" />
+		<div class="flex lg:flex-row flex-col gap-x-3">
+			<div class="form-field flex-1">
+				<input type="date" v-model.lazy="state.filter._tanggal" />
+			</div>
+			<div v-show="auth.role == '1'" class="form-field flex-1">
+				<select v-model="state.filter._user_id">
+					<option value="">Semua User</option>
+					<option v-for="item in state.user" :value="item.id">{{ item.nama }}</option>
+				</select>
+			</div>
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ formatDate(state.filter._tanggal) }}</div>
 		<div class="text-right mb-4 text-sm">
