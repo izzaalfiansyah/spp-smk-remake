@@ -84,6 +84,11 @@ Route::middleware(Bearer::class)->group(function () {
       Route::get('/', [Controller\PtkController::class, 'laporan']);
       Route::get('/print', [Controller\PtkController::class, 'laporan_print']);
       Route::get('/excel', [Controller\PtkController::class, 'laporan_excel']);
+
+      Route::prefix('/tabungan')->group(function () {
+        Route::get('/print', [Controller\TabunganPtkController::class, 'laporan_print']);
+        Route::get('/excel', [Controller\TabunganPtkController::class, 'laporan_excel']);
+      });
     });
 
     Route::prefix('/tunggakan')->group(function () {

@@ -25,7 +25,7 @@
 			jabatan: '',
 		},
 		filter: {
-			_limit: 5,
+			_limit: 10,
 			_page: 1,
 			q: '',
 		},
@@ -175,7 +175,7 @@
 		</div>
 	</Card>
 
-	<TabunganPtk></TabunganPtk>
+	<!-- <TabunganPtk></TabunganPtk> -->
 
 	<Modal v-model="state.modal.save">
 		<Card :title="state.isEdit ? 'Edit PTK' : 'Tambah PTK'" class="!max-w-full !w-550px">

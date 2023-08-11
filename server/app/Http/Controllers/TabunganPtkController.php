@@ -17,6 +17,10 @@ class TabunganPtkController extends Controller
             $builder = $builder->where('ptk_id', $ptk_id);
         }
 
+        if ($tanggal = $req->_tanggal) {
+            $builder = $builder->whereDate('created_at', $tanggal);
+        }
+
         $totalCount = $builder->count();
 
         if ($limit = $req->_limit) {
@@ -25,7 +29,9 @@ class TabunganPtkController extends Controller
         }
 
         $data = $builder->orderBy('created_at', 'desc')->get();
-        return response()->json($data)->header('X-Total-Count', $totalCount);
+        return response()->json($data)->header('X-Total-Count', $totalCount)
+            ->header('X-Excel-Url', url('/laporan/ptk/tabungan/excel?' . http_build_query($req->all())))
+            ->header('X-Print-Url', url('/laporan/ptk/tabungan/print?' . http_build_query($req->all())));
     }
 
     public function store(Request $req)
@@ -72,5 +78,57 @@ class TabunganPtkController extends Controller
             'user_id' => 'required|integer',
             'nominal' => 'required|integer',
         ];
+    }
+
+    public function laporan_print(Request $req)
+    {
+        $data = $this->index($req)->original;
+
+        $header = ['NO', 'KODE', 'NAMA', 'JABATAN', 'ID', 'NOMINAL'];
+        $content = [];
+        $total = 0;
+
+        foreach ($data as $key => $item) {
+            $content[] = [
+                $key + 1,
+                $item->ptk?->kode,
+                $item->ptk?->nama,
+                $item->ptk?->jabatan,
+                $item->nominal > 0 ? '1' : '2',
+                $item->nominal,
+            ];
+
+            $total += $item->nominal;
+        }
+
+        $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total)];
+
+        return $this->toPrint($content, $header, $footer);
+    }
+
+    public function laporan_excel(Request $req)
+    {
+        $data = $this->index($req)->original;
+
+        $header = ['NO', 'KODE', 'NAMA', 'JABATAN', 'ID', 'NOMINAL'];
+        $content = [];
+        $total = 0;
+
+        foreach ($data as $key => $item) {
+            $content[] = [
+                $key + 1,
+                $item->ptk?->kode,
+                $item->ptk?->nama,
+                $item->ptk?->jabatan,
+                $item->nominal > 0 ? '1' : '2',
+                $item->nominal,
+            ];
+
+            $total += $item->nominal;
+        }
+
+        $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total)];
+
+        return $this->toExcel($content, $header, $footer, 'laporan-tabungan-ptk');
     }
 }

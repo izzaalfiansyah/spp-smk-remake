@@ -69,6 +69,11 @@
 								icon: 'account_balance',
 								path: '/data/ptk',
 							},
+							{
+								title: 'Pembayaran PTK',
+								icon: 'sd_card',
+								path: '/pembayaran/ptk',
+							},
 					  ]
 					: [
 							{
@@ -90,6 +95,11 @@
 								title: 'Data PTK',
 								icon: 'account_balance',
 								path: '/data/ptk',
+							},
+							{
+								title: 'Pembayaran PTK',
+								icon: 'sd_card',
+								path: '/pembayaran/ptk',
 							},
 					  ],
 		},
