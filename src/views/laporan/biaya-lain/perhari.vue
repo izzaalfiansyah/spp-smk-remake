@@ -89,7 +89,7 @@
 		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ formatDate(state.filter._tanggal) }}</div>
 		<div class="text-right mb-4 text-sm">
 			<a target="_blank" :href="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
-			<a target="_blank" :href="state.print_url" class="text-red-500">PRINT</a>
+			<!-- <a target="_blank" :href="state.print_url" class="text-red-500">PRINT</a> -->
 		</div>
 		<Table
 			:keys="{
