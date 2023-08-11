@@ -30,10 +30,12 @@ class LaporanSppController extends Controller
             $data = $builder->get();
 
             foreach ($data as $key => $item) {
+                $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->first();
                 $data[$key]->total_bulan = $item->total_bulan . ' Bulan';
                 $data[$key]->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
-                $data[$key]->user_id = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->first()->user_id;
-                $data[$key]->operator = DB::table('user')->where('id', $data[$key]->user_id)->first();
+                $data[$key]->user_id = $pembayaran_spp->user_id;
+                $data[$key]->waktu = date('H:i', strtotime($pembayaran_spp->created_at));
+                $data[$key]->operator = DB::table('user')->where('id', $pembayaran_spp->user_id)->first();
             }
 
             $data = array_reverse($data->toArray());

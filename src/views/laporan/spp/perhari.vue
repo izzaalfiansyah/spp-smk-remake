@@ -80,6 +80,7 @@
 				Kelas: 'siswa_kelas',
 				Bulan: 'total_bulan',
 				Total: 'total_bayar',
+				Waktu: 'waktu',
 				Petugas: 'operator',
 			}"
 			:items="state.data"
