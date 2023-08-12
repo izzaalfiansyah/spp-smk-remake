@@ -62,7 +62,7 @@
 	);
 
 	onMounted(() => {
-		// get();
+		get();
 		if (nisn.value) getItem();
 	});
 </script>
@@ -73,25 +73,20 @@
 		<div class="lg:w-2/5 p-2 w-full">
 			<Card>
 				<form @submit.prevent="handleSubmit" class="form-field">
-					<input type="text" required placeholder="Masukkan NISN" v-model="state.siswa_nisn" />
-					<!-- <AutoComplete
-						placeholder="Pilih Siswa"
+					<!-- <input type="text" required placeholder="Masukkan NISN" v-model="state.siswa_nisn" /> -->
+					<AutoComplete
+						placeholder="Masukkan NISN"
 						:items="
 							state.siswa.items.map((item) => ({
 								value: item.nisn,
-								text: item.nisn + ' - ' + item.nama,
-								nisn: item.nisn,
-								nama: item.nama,
+								text: item.nisn + '',
 							}))
 						"
 						v-model="state.siswa_nisn"
 						required
 						v-slot="{ item }"
 					>
-						<span class="font-semibold">{{ item.nisn }}</span>
-						<br />
-						{{ item.nama }}
-					</AutoComplete> -->
+					</AutoComplete>
 					<button type="submit" class="w-full">Cari</button>
 				</form>
 			</Card>

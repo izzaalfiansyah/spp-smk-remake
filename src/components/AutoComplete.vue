@@ -16,7 +16,7 @@
 	}
 
 	function handleClick(e) {
-		if (e.path.indexOf(el.value) < 0) {
+		if (e.target.parentNode != el.value) {
 			open.value = false;
 		}
 
