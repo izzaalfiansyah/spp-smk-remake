@@ -54,9 +54,9 @@
 	}
 
 	watch(
-		() => route.query.siswa_nisn,
+		() => route.query,
 		(val) => {
-			nisn.value = state.siswa_nisn = val ? val : '';
+			nisn.value = state.siswa_nisn = val.siswa_nisn ? val.siswa_nisn : '';
 			if (val) getItem();
 		},
 	);
