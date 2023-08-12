@@ -28,6 +28,7 @@ Route::middleware(Bearer::class)->group(function () {
   Route::resource('/siswa', Controller\SiswaController::class);
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
   Route::resource('/ptk/tabungan', Controller\TabunganPtkController::class);
+  Route::get('/ptk/by-kode', [Controller\PtkController::class, 'showByKode']);
   Route::resource('/ptk', Controller\PtkController::class);
 
   Route::prefix('/pembayaran')->group(function () {

@@ -33,6 +33,20 @@ class PtkController extends Controller
         return response()->json($data)->header('X-Total-Count', $totalCount);
     }
 
+    function show($id)
+    {
+        $item = Model::find($id);
+
+        return response()->json($item);
+    }
+
+    function showByKode(Request $req)
+    {
+        $item = Model::where('kode', $req->kode)->first();
+
+        return response()->json($item);
+    }
+
     public function store(Request $req)
     {
         $schema = Validator::make($req->all(), $this->rules());

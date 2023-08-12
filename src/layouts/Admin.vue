@@ -72,7 +72,7 @@
 							{
 								title: 'Pembayaran PTK',
 								icon: 'sd_card',
-								path: '/pembayaran/ptk',
+								path: '/data/pembayaran-ptk',
 							},
 					  ]
 					: [
@@ -99,7 +99,7 @@
 							{
 								title: 'Pembayaran PTK',
 								icon: 'sd_card',
-								path: '/pembayaran/ptk',
+								path: '/data/pembayaran-ptk',
 							},
 					  ],
 		},
