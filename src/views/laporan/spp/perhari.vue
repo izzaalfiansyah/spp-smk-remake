@@ -60,7 +60,7 @@
 			<div class="form-field flex-1">
 				<input type="date" v-model.lazy="state.filter._tanggal" />
 			</div>
-			<div v-show="auth.role == '1'" class="form-field flex-1">
+			<div class="form-field flex-1">
 				<select v-model="state.filter._user_id">
 					<option value="">Semua User</option>
 					<option v-for="item in state.user" :value="item.id">{{ item.nama }}</option>

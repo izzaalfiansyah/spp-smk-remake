@@ -80,7 +80,7 @@
 				</select>
 			</div>
 			<div class="w-full lg:w-2/5">
-				<select v-model="state.filter._user_id" :disabled="auth.role !== '1'">
+				<select v-model="state.filter._user_id">
 					<option value="">Semua Petugas</option>
 					<option v-for="item in state.user" :value="item.id">{{ item.nama }}</option>
 				</select>
