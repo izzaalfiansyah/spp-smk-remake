@@ -65,7 +65,7 @@
 	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../components/Card.vue';
 	import Table from '../../components/Table.vue';
-	import { auth, formatMoney, http, notify, nowDate } from '../../lib';
+	import { auth, formatDate, formatMoney, http, notify, nowDate } from '../../lib';
 	import Modal from '../../components/Modal.vue';
 	import Form, { rule } from '../../components/Form.vue';
 	import Pagination from '../../components/Pagination.vue';
@@ -196,7 +196,7 @@
 
 <template>
 	<Card title="Laporan PTK" class="mb-4">
-		<div class="form-field flex items-center gap-x-3">
+		<div class="form-field flex lg:flex-row flex-col items-center gap-x-3">
 			<select v-model="state.filter._limit" class="!lg:w-1/4">
 				<option value="5">5</option>
 				<option value="10">10</option>
@@ -210,7 +210,7 @@
 					{{ item.kode }} - {{ item.nama }}
 				</option>
 			</select>
-			<input type="date" v-model="state.filter._tanggal" class="!lg:w-1/2" />
+			<input type="date" v-model.lazy="state.filter._tanggal" class="!lg:w-1/2" />
 		</div>
 		<div class="p-4 bg-gray-50 rounded mb-4">Tanggal: {{ state.filter._tanggal != '' ? formatDate(state.filter._tanggal) : '-' }}</div>
 		<div class="text-right mb-4 text-sm">
