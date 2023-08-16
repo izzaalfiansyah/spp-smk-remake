@@ -1,7 +1,7 @@
 <script setup>
 	import { onMounted, reactive, watchEffect } from 'vue';
 	import Card from '../../../components/Card.vue';
-	import { http, notify, formatMoney, formatDate, auth, blankPage } from '../../../lib';
+	import { http, notify, formatMoney, formatDate, auth } from '../../../lib';
 	import Table from '../../../components/Table.vue';
 	import Modal from '../../../components/Modal.vue';
 	import Loading from '../../../components/Loading.vue';
@@ -99,8 +99,6 @@
 				}).then(() => {
 					getData();
 					getPembayaran();
-
-					blankPage(res.print_url);
 				});
 			})
 			.catch((err) => notify(err, 'bg-red-400'));
