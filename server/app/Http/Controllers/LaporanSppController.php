@@ -13,15 +13,21 @@ class LaporanSppController extends Controller
 
         if ($tanggal = $req->_tanggal) {
             $builder = new \App\Models\PembayaranSpp();
-            $builder = $builder->select(
-                'siswa_nisn',
-                DB::raw('count(id) as total_bulan'),
-                DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
-                DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
-                DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
-            );
-            $builder = $builder->groupBy('siswa_nisn');
+
+            $builder = $builder->select('siswa_nisn', 'created_at');
+
             $builder = $builder->whereDate('created_at', $tanggal);
+            $builder = $builder->orderBy('created_at', 'desc');
+
+            // $builder = $builder->select(
+            //     'siswa_nisn',
+            //     DB::raw('count(id) as total_bulan'),
+            //     DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
+            //     DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
+            //     DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
+            // );
+            // $builder = $builder->groupBy('siswa_nisn');
+            // $builder = $builder->whereDate('created_at', $tanggal);
 
             if ($user_id = $req->_user_id) {
                 $builder = $builder->where('user_id', $user_id);
@@ -29,19 +35,47 @@ class LaporanSppController extends Controller
 
             $data = $builder->get();
 
-            foreach ($data as $key => $item) {
-                $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->first();
-                $data[$key]->total_bulan = $item->total_bulan . ' Bulan';
-                $data[$key]->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
-                $data[$key]->user_id = $pembayaran_spp->user_id;
-                $data[$key]->waktu = date('H:i', strtotime($pembayaran_spp->created_at));
-                $data[$key]->operator = DB::table('user')->where('id', $pembayaran_spp->user_id)->first();
-            }
+            // foreach ($data as $key => $item) {
+            //     $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->first();
+            //     $data[$key]->total_bulan = $item->total_bulan . ' Bulan';
+            //     $data[$key]->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
+            //     $data[$key]->user_id = $pembayaran_spp->user_id;
+            //     $data[$key]->waktu = date('H:i', strtotime($pembayaran_spp->created_at));
+            //     $data[$key]->operator = DB::table('user')->where('id', $pembayaran_spp->user_id)->first();
+            // }
 
-            $data = array_reverse($data->toArray());
+            $siswa_nisn = [];
+            $items = [];
+
+            foreach ($data as $key => $item) {
+                if (!in_array($item->siswa_nisn, $siswa_nisn)) {
+                    array_push($siswa_nisn, $item->siswa_nisn);
+
+                    $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->get();
+
+                    $total_bulan = $total_bayar = $total_bulan = $total_tabungan = $total_uang_praktik = 0;
+
+                    foreach ($pembayaran_spp as $spp) {
+                        $total_bulan += 1;
+                        $total_bayar += $spp->jumlah_bayar;
+                        $total_tabungan += $spp->tabungan_wajib;
+                        $total_uang_praktik += $spp->uang_praktik;
+                        $user_id = $spp->user_id;
+                        $waktu = date('H:i', strtotime($spp->created_at));
+                    }
+
+                    $item->total_bulan = $total_bulan . ' Bulan';
+                    $item->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
+                    $item->user_id = $user_id;
+                    $item->operator = DB::table('user')->where('id', $user_id)->first();
+                    $item->waktu = $waktu;
+
+                    array_push($items, $item);
+                }
+            }
         }
 
-        return response()->json($data)
+        return response()->json($items)
             ->header('X-Excel-Url', url('/laporan/spp/perhari/excel?' . http_build_query($req->all())))
             ->header('X-Print-Url', url('/laporan/spp/perhari/print?' . http_build_query($req->all())));
     }
