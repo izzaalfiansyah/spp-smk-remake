@@ -65,6 +65,9 @@ class LaporanSppController extends Controller
                     }
 
                     $item->total_bulan = $total_bulan . ' Bulan';
+                    $item->total_bayar = (int) $total_bayar;
+                    $item->total_tabungan = (int) $total_tabungan;
+                    $item->total_uang_praktik = (int) $total_uang_praktik;
                     $item->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
                     $item->user_id = $user_id;
                     $item->operator = DB::table('user')->where('id', $user_id)->first();
