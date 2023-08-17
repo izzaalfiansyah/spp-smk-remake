@@ -19,30 +19,11 @@ class LaporanSppController extends Controller
             $builder = $builder->whereDate('created_at', $tanggal);
             $builder = $builder->orderBy('created_at', 'desc');
 
-            // $builder = $builder->select(
-            //     'siswa_nisn',
-            //     DB::raw('count(id) as total_bulan'),
-            //     DB::raw('cast(sum(jumlah_bayar) as unsigned) as total_bayar'),
-            //     DB::raw('cast(sum(tabungan_wajib) as unsigned) as total_tabungan'),
-            //     DB::raw('cast(sum(uang_praktik) as unsigned) as total_uang_praktik'),
-            // );
-            // $builder = $builder->groupBy('siswa_nisn');
-            // $builder = $builder->whereDate('created_at', $tanggal);
-
             if ($user_id = $req->_user_id) {
                 $builder = $builder->where('user_id', $user_id);
             }
 
             $data = $builder->get();
-
-            // foreach ($data as $key => $item) {
-            //     $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->first();
-            //     $data[$key]->total_bulan = $item->total_bulan . ' Bulan';
-            //     $data[$key]->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
-            //     $data[$key]->user_id = $pembayaran_spp->user_id;
-            //     $data[$key]->waktu = date('H:i', strtotime($pembayaran_spp->created_at));
-            //     $data[$key]->operator = DB::table('user')->where('id', $pembayaran_spp->user_id)->first();
-            // }
 
             $siswa_nisn = [];
             $items = [];
