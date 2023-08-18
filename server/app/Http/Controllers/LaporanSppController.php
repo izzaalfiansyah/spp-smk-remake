@@ -19,6 +19,7 @@ class LaporanSppController extends Controller
             $builder = $builder->whereDate('created_at', $tanggal);
             $builder = $builder->orderBy('created_at', 'desc');
 
+            $user_id = '0';
             if ($user_id = $req->_user_id) {
                 $builder = $builder->where('user_id', $user_id);
             }
@@ -32,7 +33,7 @@ class LaporanSppController extends Controller
                 if (!in_array($item->siswa_nisn, $siswa_nisn)) {
                     array_push($siswa_nisn, $item->siswa_nisn);
 
-                    $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->get();
+                    $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->where('user_id', $user_id ? '=' : '<>', $user_id)->get();
 
                     $total_bulan = $total_bayar = $total_bulan = $total_tabungan = $total_uang_praktik = 0;
 
