@@ -61,7 +61,7 @@ class LaporanBiayaLainController extends Controller
 
         $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
 
-        return $this->toPrint($content, $header, $footer);
+        return $this->toPrint($content, $header, $footer, strtoupper("Laporan Biaya Lain Tanggal " . formatDate($req->_tanggal)));
     }
 
     public function perhari_excel(Request $req)
@@ -88,7 +88,7 @@ class LaporanBiayaLainController extends Controller
 
         $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
 
-        return $this->toExcel($content, $header, $footer, 'laporan-biaya-lain-' . date('Y-m-d'));
+        return $this->toExcel($content, $header, $footer, 'laporan-biaya-lain-' . $req->_tanggal);
     }
 
     public function perkelas(Request $req)
@@ -184,7 +184,7 @@ class LaporanBiayaLainController extends Controller
             array_push($content, $itemContent);
         }
 
-        return $this->toPrint($content);
+        return $this->toPrint($content, [], [], strtoupper("Laporan biaya lain kelas " . str_replace('-', ' ', $req->_kelas_jurusan_rombel)));
     }
 
     public function perkelas_excel(Request $req)

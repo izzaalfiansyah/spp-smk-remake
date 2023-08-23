@@ -80,8 +80,8 @@
 			Kelas: {{ state.filter._kelas_jurusan_rombel.replace(/-/gi, ' ') }}
 		</div>
 		<div class="text-right mb-4 text-sm">
-			<a target="_blank" :href="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
-			<a target="_blank" :href="state.print_url" class="text-red-500">PRINT</a>
+			<a target="_blank" :href="state.excel_url" v-show="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
+			<a target="_blank" :href="state.print_url" v-show="state.print_url" class="text-red-500">PRINT</a>
 		</div>
 		<div class="overflow-x-auto">
 			<table class="w-full whitespace-nowrap">
