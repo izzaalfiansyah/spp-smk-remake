@@ -82,7 +82,7 @@ class LaporanSppController extends Controller
                 $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
             $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
-            $total += $item->total_bayar + $item->total_tabungan;
+            $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
         return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal)));
@@ -105,7 +105,7 @@ class LaporanSppController extends Controller
                 $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
             ];
             $total_bulan += (int) str_replace(' Bulan', '', $item->total_bulan);
-            $total += $item->total_bayar + $item->total_tabungan;
+            $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
         return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], 'laporan-spp-' . $req->_tanggal);
