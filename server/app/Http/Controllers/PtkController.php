@@ -132,7 +132,7 @@ class PtkController extends Controller
 
         $footer = ['', '', '', 'TOTAL', $this->formatMoney($total)];
 
-        return $this->toPrint($content, $header, $footer);
+        return $this->toPrint($content, $header, $footer, strtoupper("Laporan Tabungan PTK"));
     }
 
     public function laporan_excel()
