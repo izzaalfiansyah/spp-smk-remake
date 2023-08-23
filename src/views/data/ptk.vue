@@ -2,7 +2,7 @@
 	import { onMounted, reactive, watch } from 'vue';
 	import Card from '../../components/Card.vue';
 	import Table from '../../components/Table.vue';
-	import { http, notify } from '../../lib';
+	import { formatMoney, http, notify } from '../../lib';
 	import Modal from '../../components/Modal.vue';
 	import Form, { rule } from '../../components/Form.vue';
 	import Pagination from '../../components/Pagination.vue';
@@ -138,10 +138,14 @@
 				Kode: 'kode',
 				Nama: 'nama',
 				Jabatan: 'jabatan',
+				Saldo: 'total_saldo',
 				Opsi: 'opsi',
 			}"
 			:items="state.data.items"
 		>
+			<template #total_saldo="{ item }">
+				{{  formatMoney(item.total_saldo)  }}
+			</template>
 			<template #opsi="{ item }">
 				<div class="bg-white rounded inline-block px-1">
 					<button
