@@ -85,7 +85,7 @@ class LaporanSppController extends Controller
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)]);
+        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal)));
     }
 
     public function perhari_excel(Request $req)
@@ -108,7 +108,7 @@ class LaporanSppController extends Controller
             $total += $item->total_bayar + $item->total_tabungan;
         }
 
-        return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], 'laporan-spp-' . date('Y-m-d'));
+        return $this->toExcel($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], 'laporan-spp-' . $req->_tanggal);
     }
 
     public function perbulan(Request $req)
@@ -199,7 +199,7 @@ class LaporanSppController extends Controller
             $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
-        return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)]);
+        return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal_awal) . ' SAMPAI ' . formatDate($req->_tanggal_akhir)));
     }
 
     public function perbulan_excel(Request $req)
@@ -222,7 +222,7 @@ class LaporanSppController extends Controller
             $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
-        return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . date('Y-M'));
+        return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . $req->_tanggal_awal . '-sampai-' . $req->_tanggal_akhir);
     }
 
     public function perkelas(Request $req)
