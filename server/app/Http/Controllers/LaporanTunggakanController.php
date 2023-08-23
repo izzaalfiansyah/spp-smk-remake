@@ -59,7 +59,7 @@ class LaporanTunggakanController extends Controller
 
         $footer = ['', 'TOTAL', $this->formatMoney($total_spp), $this->formatMoney($total_tabungan)];
 
-        return $this->toPrint($content, $header, $footer);
+        return $this->toPrint($content, $header, $footer, strtoupper("Laporan Tunggakan"));
     }
 
     public function excel()
