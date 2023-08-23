@@ -52,7 +52,7 @@ class LaporanTabunganController extends Controller
 
         $footer = ['', '', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
 
-        return $this->toPrint($content, $header, $footer);
+        return $this->toPrint($content, $header, $footer, strtoupper("Laporan tabungan tanggal " . formatDate($req->_tanggal)));
     }
 
     public function perhari_excel(Request $req)
@@ -80,7 +80,7 @@ class LaporanTabunganController extends Controller
 
         $footer = ['', '', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
 
-        return $this->toExcel($content, $header, $footer, 'laporan-tabungan-' . date('Y-m-d'));
+        return $this->toExcel($content, $header, $footer, 'laporan-tabungan-' . $req->_tanggal);
     }
 
     public function perbulan(Request $req)
@@ -250,7 +250,7 @@ class LaporanTabunganController extends Controller
 
         $footer = ['', '', 'TOTAL', $this->formatMoney($totalWajib), $this->formatMoney($totalPribadi), $this->formatMoney($total)];
 
-        return $this->toPrint($content, $header, $footer);
+        return $this->toPrint($content, $header, $footer, strtoupper("Laporan tabungan kelas " . str_replace('-', ' ', $req->_kelas_jurusan_rombel)));
     }
 
     public function perkelas_excel(Request $req)
