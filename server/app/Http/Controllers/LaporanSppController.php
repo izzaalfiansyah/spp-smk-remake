@@ -33,7 +33,15 @@ class LaporanSppController extends Controller
                 if (!in_array($item->siswa_nisn, $siswa_nisn)) {
                     array_push($siswa_nisn, $item->siswa_nisn);
 
-                    $pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->where('user_id', $user_id ? '=' : '<>', $user_id)->get();
+                    $builder_pembayaran_spp = DB::table('pembayaran_spp')->where('siswa_nisn', $item->siswa_nisn)->whereDate('created_at', $tanggal)->orderBy('created_at', 'desc');
+
+                    if ($user_id) {
+                        $builder_pembayaran_spp = $builder_pembayaran_spp->where('user_id', $user_id);
+                    }
+
+                    $pembayaran_spp = $builder_pembayaran_spp->get();
+
+                    // return $pembayaran_spp;
 
                     $total_bulan = $total_bayar = $total_bulan = $total_tabungan = $total_uang_praktik = 0;
 
@@ -42,7 +50,7 @@ class LaporanSppController extends Controller
                         $total_bayar += $spp->jumlah_bayar;
                         $total_tabungan += $spp->tabungan_wajib;
                         $total_uang_praktik += $spp->uang_praktik;
-                        $user_id = $spp->user_id;
+                        $pembayaran_user_id = $spp->user_id;
                         $waktu = date('H:i', strtotime($spp->created_at));
                     }
 
@@ -51,8 +59,8 @@ class LaporanSppController extends Controller
                     $item->total_tabungan = (int) $total_tabungan;
                     $item->total_uang_praktik = (int) $total_uang_praktik;
                     $item->siswa = DB::table('siswa')->where('nisn', $item->siswa_nisn)->first();
-                    $item->user_id = $user_id;
-                    $item->operator = DB::table('user')->where('id', $user_id)->first();
+                    $item->user_id = $pembayaran_user_id;
+                    $item->operator = DB::table('user')->where('id', $pembayaran_user_id)->first();
                     $item->waktu = $waktu;
 
                     array_push($items, $item);
