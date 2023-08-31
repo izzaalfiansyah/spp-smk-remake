@@ -132,10 +132,17 @@ class LaporanBiayaLainController extends Controller
                         ->where('siswa_nisn', $item->nisn)
                         ->first();
 
+                    $total_terbayar = (int) $terbayar?->total ?: 0;
+                    $jumlah_bayar = (int) $itemBl->jumlah_bayar;
+
+                    if ($item->diskon_biaya_lain) {
+                        $jumlah_bayar = $jumlah_bayar - ($jumlah_bayar * $item->diskon_biaya_lain / 100);
+                    }
+
                     $data_biaya_lain[$keyBl] = (object) [
                         'jenis' => $itemBl->jenis,
-                        'jumlah_bayar' => $itemBl->jumlah_bayar,
-                        'terbayar' => ((int) $terbayar?->total)
+                        'jumlah_bayar' => $jumlah_bayar,
+                        'terbayar' => $total_terbayar,
                     ];
                 }
 
