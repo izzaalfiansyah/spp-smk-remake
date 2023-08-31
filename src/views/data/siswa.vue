@@ -279,11 +279,11 @@
 				<div class="grid grid-cols-2 gap-3">
 					<div>
 						<label for="">Diskon SPP</label>
-						<input type="number" v-model="state.req.diskon_spp" />
+						<input min="0" max="100" type="number" v-model="state.req.diskon_spp" />
 					</div>
 					<div>
 						<label for="">Diskon Biaya Lain</label>
-						<input type="number" v-model="state.req.diskon_biaya_lain" />
+						<input min="0" max="100" type="number" v-model="state.req.diskon_biaya_lain" />
 					</div>
 				</div>
 
