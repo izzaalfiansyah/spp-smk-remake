@@ -13,9 +13,9 @@
 
 	function get() {
 		http
-			.get('/siswa')
+			.get('/siswa/total')
 			.then((res) => res.json())
-			.then((res) => (state.total.siswa = res.length))
+			.then((res) => (state.total.siswa = res))
 			.catch((err) => notify(err, 'bg-red-400'));
 		http
 			.get('/jurusan')
