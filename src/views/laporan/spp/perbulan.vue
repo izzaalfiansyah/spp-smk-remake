@@ -90,7 +90,7 @@
 				{{ item.kelas }} {{ item.jurusan_kode }} {{ item.rombel }}
 			</template>
 
-			<template #jumlah_pembayaran="{ item }"> {{ item.jumlah_pembayaran }} Transaksi </template>
+			<template #jumlah_pembayaran="{ item }"> {{ item.jumlah_pembayaran - item.keringanan.jumlah }} Transaksi </template>
 
 			<template #jumlah_keringanan="{ item }"> {{ item.keringanan.jumlah }} Transaksi </template>
 
