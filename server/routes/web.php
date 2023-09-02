@@ -25,6 +25,7 @@ Route::middleware(Bearer::class)->group(function () {
   Route::get('/siswa/by-nisn', [Controller\SiswaController::class, 'showByNisn']);
   Route::put('/siswa/by-nisn', [Controller\SiswaController::class, 'updateByNisn']);
   Route::delete('/siswa/by-nisn', [Controller\SiswaController::class, 'destroyByNisn']);
+  Route::get('/siswa/total', [Controller\SiswaController::class, 'total']);
   Route::resource('/siswa', Controller\SiswaController::class);
   Route::resource('/biaya-lain', Controller\BiayaLainController::class);
   Route::resource('/ptk/tabungan', Controller\TabunganPtkController::class);

@@ -172,4 +172,9 @@ class SiswaController extends Controller
             'diskon_biaya_lain' => 'nullable|integer',
         ];
     }
+
+    function total()
+    {
+        return response()->json(Model::count());
+    }
 }
