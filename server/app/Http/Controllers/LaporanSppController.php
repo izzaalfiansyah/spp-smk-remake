@@ -198,16 +198,19 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran . ' Transaksi',
+                $item->jumlah_pembayaran - $item->keringanan->jumlah . ' Transaksi',
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total),
                 $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
-                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik)
             ];
+
             $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
-        return $this->toPrint($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal_awal) . ' SAMPAI ' . formatDate($req->_tanggal_akhir)));
+        $header = ['NO', 'KELAS', 'JUMLAH PEMBAYARAN', 'TOTAL PEMBAYARAN', 'JUMLAH KERINGANAN', 'TOTAL KERINGANAN', 'TOTAL'];
+
+        return $this->toPrint($content, $header, ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal_awal) . ' SAMPAI ' . formatDate($req->_tanggal_akhir)));
     }
 
     public function perbulan_excel(Request $req)
@@ -221,16 +224,19 @@ class LaporanSppController extends Controller
             $content[] = [
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
-                $item->jumlah_pembayaran . ' Transaksi',
+                $item->jumlah_pembayaran - $item->keringanan->jumlah . ' Transaksi',
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total),
                 $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->keringanan->uang),
                 $this->formatMoney($item->keringanan->total),
-                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik)
             ];
+
             $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
-        return $this->toExcel($content, ['NO', 'KELAS', 'JUMLAH TOTAL', 'JUMLAH KERINGANAN', 'UANG KERINGANAN', 'TOTAL SPP KERINGANAN', 'TOTAL'], ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . $req->_tanggal_awal . '-sampai-' . $req->_tanggal_akhir);
+        $header = ['NO', 'KELAS', 'JUMLAH PEMBAYARAN', 'TOTAL PEMBAYARAN', 'JUMLAH KERINGANAN', 'TOTAL KERINGANAN', 'TOTAL'];
+
+        return $this->toExcel($content, $header, ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], 'laporan-spp-' . $req->_tanggal_awal . '-sampai-' . $req->_tanggal_akhir);
     }
 
     public function perkelas(Request $req)

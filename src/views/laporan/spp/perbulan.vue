@@ -75,9 +75,9 @@
 				No: 'no',
 				Kelas: 'kelas',
 				Jumlah_Pembayaran: 'jumlah_pembayaran',
-				Jumlah_Total_Pembayaran: 'total_bayar',
+				Total_Pembayaran: 'total_bayar',
 				Jumlah_Keringanan: 'jumlah_keringanan',
-				Jumlah_Total_Keringanan: 'total_keringanan',
+				Total_Keringanan: 'total_keringanan',
 			}"
 			:items="state.data"
 		>
