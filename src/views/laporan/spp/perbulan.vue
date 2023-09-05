@@ -75,10 +75,9 @@
 				No: 'no',
 				Kelas: 'kelas',
 				Jumlah_Pembayaran: 'jumlah_pembayaran',
-				Jumlah_Total: 'total_bayar',
+				Jumlah_Total_Pembayaran: 'total_bayar',
 				Jumlah_Keringanan: 'jumlah_keringanan',
-				Uang_Keringanan: 'uang_keringanan',
-				Total_SPP_Keringanan: 'total_keringanan',
+				Jumlah_Total_Keringanan: 'total_keringanan',
 			}"
 			:items="state.data"
 		>
@@ -103,7 +102,7 @@
 			</template>
 
 			<template #total_bayar="{ item }">
-				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik) }}
+				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik - item.keringanan.total) }}
 			</template>
 		</Table>
 		<div class="p-4 bg-gray-50 rounded mb-4">Total: {{ formatMoney(state.total) }}</div>
