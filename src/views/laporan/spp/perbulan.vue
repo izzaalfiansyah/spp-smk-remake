@@ -1,48 +1,48 @@
 <script setup>
-	import { onMounted, reactive, watch } from 'vue';
-	import Card from '../../../components/Card.vue';
-	import Table from '../../../components/Table.vue';
-	import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
+import { onMounted, reactive, watch } from 'vue';
+import Card from '../../../components/Card.vue';
+import Table from '../../../components/Table.vue';
+import { formatDate, formatMoney, http, notify, nowDate } from '../../../lib';
 
-	const state = reactive({
-		filter: {
-			_tanggal_awal: '',
-			_tanggal_akhir: '',
-		},
-		total: 0,
-		data: [],
-		excel_url: '',
-		print_url: '',
-	});
+const state = reactive({
+	filter: {
+		_tanggal_awal: '',
+		_tanggal_akhir: '',
+	},
+	total: 0,
+	data: [],
+	excel_url: '',
+	print_url: '',
+});
 
-	function get() {
-		if (state.filter._tanggal_awal && state.filter._tanggal_akhir)
-			http
-				.get('/laporan/spp/perbulan', state.filter)
-				.then((res) => {
-					state.excel_url = res.headers.get('X-Excel-Url');
-					state.print_url = res.headers.get('X-Print-Url');
-					return res.json();
-				})
-				.then((res) => {
-					state.total = 0;
-					state.data = res;
+function get() {
+	if (state.filter._tanggal_awal && state.filter._tanggal_akhir)
+		http
+			.get('/laporan/spp/perbulan', state.filter)
+			.then((res) => {
+				state.excel_url = res.headers.get('X-Excel-Url');
+				state.print_url = res.headers.get('X-Print-Url');
+				return res.json();
+			})
+			.then((res) => {
+				state.total = 0;
+				state.data = res;
 
-					res.forEach((item) => {
-						state.total += item.total_bayar + item.total_tabungan + item.total_uang_praktik;
-					});
-				})
-				.catch((err) => notify(err, 'bg-red-400'));
-	}
+				res.forEach((item) => {
+					state.total += item.total_bayar + item.total_tabungan + item.total_uang_praktik;
+				});
+			})
+			.catch((err) => notify(err, 'bg-red-400'));
+}
 
-	watch(state.filter, () => {
-		get();
-	});
+watch(state.filter, () => {
+	get();
+});
 
-	onMounted(() => {
-		state.filter._tanggal_awal = nowDate();
-		state.filter._tanggal_akhir = nowDate();
-	});
+onMounted(() => {
+	state.filter._tanggal_awal = nowDate();
+	state.filter._tanggal_akhir = nowDate();
+});
 </script>
 
 <template>
@@ -50,12 +50,7 @@
 		<div class="form-field mb-3 grid lg:grid-cols-2 grid-cols-1 gap-3">
 			<div>
 				<label for="">Tanggal Awal</label>
-				<input
-					type="date"
-					class="!mb-0"
-					:max="state.filter._tanggal_akhir"
-					v-model.lazy="state.filter._tanggal_awal"
-				/>
+				<input type="date" class="!mb-0" :max="state.filter._tanggal_akhir" v-model.lazy="state.filter._tanggal_awal" />
 			</div>
 			<div>
 				<label for="">Tanggal Akhir</label>
@@ -70,17 +65,14 @@
 			<a target="_blank" :href="state.excel_url" class="mr-4 text-green-500">EXCEL</a>
 			<a target="_blank" :href="state.print_url" class="text-red-500">PRINT</a>
 		</div>
-		<Table
-			:keys="{
-				No: 'no',
-				Kelas: 'kelas',
-				Jumlah_Pembayaran: 'jumlah_pembayaran',
-				Total_Pembayaran: 'total_bayar',
-				Jumlah_Keringanan: 'jumlah_keringanan',
-				Total_Keringanan: 'total_keringanan',
-			}"
-			:items="state.data"
-		>
+		<Table :keys="{
+			No: 'no',
+			Kelas: 'kelas',
+			Jumlah_Pembayaran: 'jumlah_pembayaran',
+			Total_Pembayaran: 'total_bayar',
+			Jumlah_Keringanan: 'jumlah_keringanan',
+			Total_Keringanan: 'total_keringanan',
+		}" :items="state.data">
 			<template #no="{ index }">
 				{{ index + 1 }}
 			</template>
@@ -97,12 +89,14 @@
 				{{ formatMoney(item.keringanan.uang) }}
 			</template>
 
-			<template #total_keringanan="{ item }">
-				{{ formatMoney(item.keringanan.total) }}
+			<template #total_bayar="{ item }">
+				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik -
+					item.keringanan.total) }}
 			</template>
 
-			<template #total_bayar="{ item }">
-				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik - item.keringanan.total) }}
+			<template #total_keringanan="{ item }">
+				{{ formatMoney(item.keringanan.total +
+					item.keringanan.tabungan) }}
 			</template>
 		</Table>
 		<div class="p-4 bg-gray-50 rounded mb-4">Total: {{ formatMoney(state.total) }}</div>

@@ -164,18 +164,34 @@ class LaporanSppController extends Controller
                     ->whereIn('nisn', $siswaNisns)
                     ->get();
 
+                $siswaCount = DB::table('pembayaran_spp')
+                    ->leftJoin('siswa', 'siswa.nisn', 'pembayaran_spp.siswa_nisn')
+                    ->where('siswa.jurusan_kode', $item->jurusan_kode)
+                    ->where('siswa.kelas', $item->kelas)
+                    ->where('siswa.rombel', $item->rombel)
+                    ->whereIn('siswa.nisn', $siswaNisns)
+                    ->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal)
+                    ->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir)
+                    ->count();
+
                 $keringanan = (object) [
                     'jumlah' => 0,
                     'uang' => 0,
                     'total' => 0,
+                    'tabungan' => 0,
                 ];
+
+                $tabungan_per_orang = $item->total_tabungan / $siswaCount;
 
                 foreach ($siswaKeringanan as $s) {
                     $uangKeringanan = (($jurusan->jumlah_spp * $s->diskon_spp / 100) - ($jurusan->kategori == '2' ? ($s->diskon_spp > 50 ? 10000 : 0) : 0));
 
                     $keringanan->uang += $uangKeringanan;
                     $keringanan->total += $jurusan->jumlah_spp - $uangKeringanan;
+                    $keringanan->tabungan += $tabungan_per_orang;
                     $keringanan->jumlah += 1;
+
+                    $data[$key]->total_tabungan -= $tabungan_per_orang;
                 }
 
                 $data[$key]->keringanan = $keringanan;
