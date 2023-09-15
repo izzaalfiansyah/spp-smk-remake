@@ -213,9 +213,9 @@ class LaporanSppController extends Controller
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
                 $item->jumlah_pembayaran - $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total - $item->keringanan->tabungan),
                 $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->keringanan->total),
+                $this->formatMoney($item->keringanan->total + $item->keringanan->tabungan),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik)
             ];
 
@@ -239,9 +239,9 @@ class LaporanSppController extends Controller
                 $key + 1,
                 $item->kelas . ' ' . $item->jurusan_kode . ' ' . $item->rombel,
                 $item->jumlah_pembayaran - $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total),
+                $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik - $item->keringanan->total - $item->keringanan->tabungan),
                 $item->keringanan->jumlah . ' Transaksi',
-                $this->formatMoney($item->keringanan->total),
+                $this->formatMoney($item->keringanan->total + $item->keringanan->tabungan),
                 $this->formatMoney($item->total_bayar + $item->total_tabungan + $item->total_uang_praktik)
             ];
 
