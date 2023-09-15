@@ -190,8 +190,6 @@ class LaporanSppController extends Controller
                     $keringanan->total += $jurusan->jumlah_spp - $uangKeringanan;
                     $keringanan->tabungan += $tabungan_per_orang;
                     $keringanan->jumlah += 1;
-
-                    $data[$key]->total_tabungan -= $tabungan_per_orang;
                 }
 
                 $data[$key]->keringanan = $keringanan;

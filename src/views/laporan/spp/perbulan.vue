@@ -91,7 +91,7 @@ onMounted(() => {
 
 			<template #total_bayar="{ item }">
 				{{ formatMoney(item.total_bayar + item.total_tabungan + item.total_uang_praktik -
-					item.keringanan.total) }}
+					item.keringanan.total - item.keringanan.tabungan) }}
 			</template>
 
 			<template #total_keringanan="{ item }">
