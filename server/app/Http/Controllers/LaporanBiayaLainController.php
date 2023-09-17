@@ -136,7 +136,9 @@ class LaporanBiayaLainController extends Controller
                     $jumlah_bayar = (int) $itemBl->jumlah_bayar;
 
                     if ($item->diskon_biaya_lain) {
-                        $jumlah_bayar = $jumlah_bayar - ($jumlah_bayar * $item->diskon_biaya_lain / 100);
+                        $jumlah_diskon = ($jumlah_bayar * $item->diskon_biaya_lain / 100);
+                        // $jumlah_bayar = $jumlah_bayar - $jumlah_diskon;
+                        $total_terbayar += $jumlah_diskon;
                     }
 
                     $data_biaya_lain[$keyBl] = (object) [
