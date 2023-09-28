@@ -156,23 +156,29 @@ class LaporanSppController extends Controller
 
             foreach ($data as $key => $item) {
                 $jurusan = DB::table('jurusan')->where('kode', $item->jurusan_kode)->first();
-                $siswaKeringanan = DB::table('siswa')
-                    ->where('diskon_spp', '>', '0')
-                    ->where('jurusan_kode', $item->jurusan_kode)
-                    ->where('kelas', $item->kelas)
-                    ->where('rombel', $item->rombel)
-                    ->whereIn('nisn', $siswaNisns)
-                    ->get();
 
-                $siswaCount = DB::table('pembayaran_spp')
-                    ->leftJoin('siswa', 'siswa.nisn', 'pembayaran_spp.siswa_nisn')
+                $siswaKeringanan = DB::table('siswa')
+                    ->rightJoin('pembayaran_spp', 'siswa.nisn', '=', 'pembayaran_spp.siswa_nisn')
+                    ->where('siswa.diskon_spp', '>', '0')
                     ->where('siswa.jurusan_kode', $item->jurusan_kode)
                     ->where('siswa.kelas', $item->kelas)
                     ->where('siswa.rombel', $item->rombel)
                     ->whereIn('siswa.nisn', $siswaNisns)
                     ->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal)
                     ->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir)
-                    ->count();
+                    ->get();
+
+
+                // $siswaCount = DB::table('pembayaran_spp')
+                //     ->leftJoin('siswa', 'siswa.nisn', 'pembayaran_spp.siswa_nisn')
+                //     ->where('siswa.jurusan_kode', $item->jurusan_kode)
+                //     ->where('siswa.kelas', $item->kelas)
+                //     ->where('siswa.rombel', $item->rombel)
+                //     ->whereIn('siswa.nisn', $siswaNisns)
+                //     ->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal)
+                //     ->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir)
+                //     ->count();
+
 
                 $keringanan = (object) [
                     'jumlah' => 0,
@@ -182,7 +188,8 @@ class LaporanSppController extends Controller
                     'uang_praktik' => 0,
                 ];
 
-                $tabungan_per_orang = $item->total_tabungan / $siswaCount;
+                // $tabungan_per_orang = $item->total_tabungan / $siswaCount;
+                $tabungan_per_orang = $jurusan->tabungan_wajib;
 
                 foreach ($siswaKeringanan as $s) {
                     $uangKeringanan = (($jurusan->jumlah_spp * $s->diskon_spp / 100) - ($jurusan->kategori == '2' ? ($s->diskon_spp > 50 ? 10000 : 0) : 0));
