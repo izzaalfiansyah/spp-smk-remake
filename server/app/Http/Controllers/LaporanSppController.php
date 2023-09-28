@@ -179,6 +179,7 @@ class LaporanSppController extends Controller
                     'uang' => 0,
                     'total' => 0,
                     'tabungan' => 0,
+                    'uang_praktik' => 0,
                 ];
 
                 $tabungan_per_orang = $item->total_tabungan / $siswaCount;
@@ -189,6 +190,7 @@ class LaporanSppController extends Controller
                     $keringanan->uang += $uangKeringanan;
                     $keringanan->total += $jurusan->jumlah_spp - $uangKeringanan;
                     $keringanan->tabungan += $tabungan_per_orang;
+                    $keringanan->uang_praktik += $jurusan->uang_praktik;
                     $keringanan->jumlah += 1;
                 }
 
