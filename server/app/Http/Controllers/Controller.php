@@ -29,6 +29,41 @@ class Controller extends BaseController
         return 'Rp ' . number_format($number, 0, ',', '.');
     }
 
+    private function generateTD($content)
+    {
+        $htmlTd = '';
+        $tds = [];
+        foreach ($content as $item) {
+            if ($item == '') {
+                if (count($tds) <= 0) {
+                    array_push($tds, [
+                        'td' => $item,
+                        'colspan' => 1,
+                    ]);
+                } else {
+                    $tds[count($tds) - 1]['colspan'] += 1;
+                }
+            } else {
+                array_push($tds, [
+                    'td' => $item,
+                    'colspan' => 1,
+                ]);
+            }
+        }
+
+        foreach ($tds as $td) {
+            $align = '';
+
+            if ($td['colspan'] > 1) {
+                $align = 'center';
+            }
+
+            $htmlTd .= '<td colspan="' . $td['colspan'] . '" align="' . $align . '">' . $td['td'] . '</td>';
+        }
+
+        return $htmlTd;
+    }
+
     public function toPrint($contents, $headers = [], $footers = [], $title = '')
     {
         $header = "";
@@ -40,36 +75,8 @@ class Controller extends BaseController
             $body = "";
             foreach ($contents as $content) {
                 $body .= "<tr>";
-                $tr = [];
-                foreach ($content as $item) {
-                    if ($item == '') {
-                        if (count($tr) <= 0) {
-                            array_push($tr, [
-                                'td' => $item,
-                                'colspan' => 1,
-                            ]);
-                        } else {
-                            $tr[count($tr) - 1]['colspan'] += 1;
-                        }
-                    } else {
-                        array_push($tr, [
-                            'td' => $item,
-                            'colspan' => 1,
-                        ]);
-                    }
-                }
-
-                foreach ($tr as $td) {
-                    $align = '';
-                    if ($td['colspan'] > 1) {
-                        $align = 'center';
-                    }
-                    $body .= '<td colspan="' . $td['colspan'] . '" align="' . $align . '">' . $td['td'] . '</td>';
-                }
-
+                $body .= $this->generateTD($content);
                 $body .= "</tr>";
-
-                // return str_replace('<', '&lt;', str_replace('>', '&gt;', $body));
             }
         } else {
             $span = count($headers);
