@@ -93,7 +93,7 @@ class LaporanSppController extends Controller
             $total += $item->total_bayar + $item->total_tabungan + $item->total_uang_praktik;
         }
 
-        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['', '', '', 'TOTAL', $total_bulan . ' Bulan', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal)));
+        return $this->toPrint($content, ['NO', 'NISN', 'NAMA SISWA', 'KELAS', 'BULAN', 'TOTAL'], ['TOTAL', '', '', '', $total_bulan . ' Bulan', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal)));
     }
 
     public function perhari_excel(Request $req)
@@ -220,7 +220,7 @@ class LaporanSppController extends Controller
 
         $header = ['NO', 'KELAS', 'JUMLAH PEMBAYARAN', 'TOTAL PEMBAYARAN', 'JUMLAH KERINGANAN', 'TOTAL KERINGANAN', 'TOTAL'];
 
-        return $this->toPrint($content, $header, ['', '', '', '', '', 'TOTAL', $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal_awal) . ' SAMPAI ' . formatDate($req->_tanggal_akhir)));
+        return $this->toPrint($content, $header, ['TOTAL', '', '', '', '', '',  $this->formatMoney($total)], strtoupper("Laporan SPP tanggal " . formatDate($req->_tanggal_awal) . ' SAMPAI ' . formatDate($req->_tanggal_akhir)));
     }
 
     public function perbulan_excel(Request $req)
