@@ -93,7 +93,7 @@ class TabunganPtkController extends Controller
                 $key + 1,
                 $item->ptk?->kode,
                 $item->ptk?->nama,
-                $item->ptk?->jabatan,
+                $item->ptk?->jabatan ?: '-',
                 $item->nominal > 0 ? '1' : '2',
                 $item->nominal,
             ];
@@ -101,7 +101,7 @@ class TabunganPtkController extends Controller
             $total += $item->nominal;
         }
 
-        $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total)];
+        $footer = ['TOTAL', '', '', '', '', $this->formatMoney($total)];
 
         return $this->toPrint($content, $header, $footer, strtoupper("Laporan Tabungan PTK"));
     }
