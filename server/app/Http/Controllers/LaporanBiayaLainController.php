@@ -59,7 +59,7 @@ class LaporanBiayaLainController extends Controller
             $total += $item->jumlah_bayar;
         }
 
-        $footer = ['', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
+        $footer = ['TOTAL', '', '', '', '', $this->formatMoney($total), '&nbsp;'];
 
         return $this->toPrint($content, $header, $footer, strtoupper("Laporan Biaya Lain Tanggal " . formatDate($req->_tanggal)));
     }
