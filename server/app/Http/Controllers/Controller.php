@@ -40,10 +40,36 @@ class Controller extends BaseController
             $body = "";
             foreach ($contents as $content) {
                 $body .= "<tr>";
+                $tr = [];
                 foreach ($content as $item) {
-                    $body .= "<td>$item</td>";
+                    if ($item == '') {
+                        if (count($tr) <= 0) {
+                            array_push($tr, [
+                                'td' => $item,
+                                'colspan' => 1,
+                            ]);
+                        } else {
+                            $tr[count($tr) - 1]['colspan'] += 1;
+                        }
+                    } else {
+                        array_push($tr, [
+                            'td' => $item,
+                            'colspan' => 1,
+                        ]);
+                    }
                 }
+
+                foreach ($tr as $td) {
+                    $align = '';
+                    if ($td['colspan'] > 1) {
+                        $align = 'center';
+                    }
+                    $body .= '<td colspan="' . $td['colspan'] . '" align="' . $align . '">' . $td['td'] . '</td>';
+                }
+
                 $body .= "</tr>";
+
+                // return str_replace('<', '&lt;', str_replace('>', '&gt;', $body));
             }
         } else {
             $span = count($headers);
