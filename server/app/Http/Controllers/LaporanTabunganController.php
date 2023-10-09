@@ -50,7 +50,7 @@ class LaporanTabunganController extends Controller
             $total += $item->jumlah_bayar;
         }
 
-        $footer = ['', '', '', '', '', 'TOTAL', $this->formatMoney($total), ''];
+        $footer = ['TOTAL', '', '', '', '', '', $this->formatMoney($total), '&nbsp;'];
 
         return $this->toPrint($content, $header, $footer, strtoupper("Laporan tabungan tanggal " . formatDate($req->_tanggal)));
     }
@@ -248,7 +248,7 @@ class LaporanTabunganController extends Controller
             $total += $item->tabungan_wajib + $item->tabungan_pribadi;
         }
 
-        $footer = ['', '', 'TOTAL', $this->formatMoney($totalWajib), $this->formatMoney($totalPribadi), $this->formatMoney($total)];
+        $footer = ['TOTAL', '', '', $this->formatMoney($totalWajib), $this->formatMoney($totalPribadi), $this->formatMoney($total)];
 
         return $this->toPrint($content, $header, $footer, strtoupper("Laporan tabungan kelas " . str_replace('-', ' ', $req->_kelas_jurusan_rombel)));
     }
