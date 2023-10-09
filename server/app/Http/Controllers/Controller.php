@@ -67,9 +67,7 @@ class Controller extends BaseController
     public function toPrint($contents, $headers = [], $footers = [], $title = '')
     {
         $header = "";
-        foreach ($headers as $item) {
-            $header .= "<td>{$item}</td>";
-        }
+        $header = $this->generateTD($headers);
 
         if ($contents) {
             $body = "";
@@ -87,10 +85,7 @@ class Controller extends BaseController
             ";
         }
 
-        $footer = "";
-        foreach ($footers as $item) {
-            $footer .= "<td>{$item}</td>";
-        }
+        $footer = $this->generateTD($footers);
 
         $response = "
         <span style='font-size: 12px'>$title</span>
