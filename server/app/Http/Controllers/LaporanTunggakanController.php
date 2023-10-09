@@ -57,7 +57,7 @@ class LaporanTunggakanController extends Controller
             $total_tabungan += ($item->pembayaran_total - $item->terbayar) * $item->jumlah_tabungan;
         }
 
-        $footer = ['', 'TOTAL', $this->formatMoney($total_spp), $this->formatMoney($total_tabungan)];
+        $footer = ['TOTAL', '', $this->formatMoney($total_spp), $this->formatMoney($total_tabungan)];
 
         return $this->toPrint($content, $header, $footer, strtoupper("Laporan Tunggakan"));
     }
