@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+include __DIR__ . '/exp.php';
+
 Route::post('/login', [Controller\UserController::class, 'login']);
 
 Route::middleware(Bearer::class)->group(function () {
