@@ -138,6 +138,9 @@ class LaporanSppController extends Controller
             $builder = $builder->groupBy('siswa.kelas');
             $builder = $builder->groupBy('siswa.jurusan_kode');
             $builder = $builder->groupBy('siswa.rombel');
+            $builder = $builder->orderBy('siswa.kelas');
+            $builder = $builder->orderBy('siswa.jurusan_kode');
+            $builder = $builder->orderBy('siswa.rombel');
             $builder = $builder->whereDate('pembayaran_spp.created_at', '>=', $tanggal_awal);
             $builder = $builder->whereDate('pembayaran_spp.created_at', '<=', $tanggal_akhir);
 
