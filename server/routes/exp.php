@@ -7,7 +7,7 @@ Route::get('/expired', function () {
   $dateExpired = strtotime('2023-10-24');
 
   return [
-    'data' => $dateNow > $dateExpired ? true : false,
+    'data' => false,
     'time' => [
       'now' => $dateNow,
       'exp' => $dateExpired,
